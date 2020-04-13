@@ -12,7 +12,7 @@ Thumbs.db
 /node_modules
 /public/hot
 /public/storage
-/public
+public
 *storage
 .storage
 /storage
