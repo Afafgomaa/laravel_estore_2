@@ -8,16 +8,14 @@
     //dd($categories);
     foreach($categories as $parents){
      $parent_slug  = $parents->slug;
-     
-
-      if(array_key_exists("childs",$parents)){
+      if(property_exists("childs",'')){
         $hasChild = "href=#".$parents->slug."  data-toggle='collapse' role='button' aria-expanded='false' aria-controls='men-cloth' data-class='flat'"; 
       }else {
         $hasChild = "href=".url('shop?category=').$parents->slug;;
       }
-
+      
       $option .= '
-       <a class=" main-manu"'. $hasChild .'> <img class="img-fuild" src="'.asset($parents->path).'"> '.$parents->categories_name.'</a>';
+       <a class=" main-manu"'. $hasChild .'>  '.$parents->categories_name.'</a>';
 
         if(isset($parents->childs)){
           $total = '';
@@ -42,15 +40,18 @@
     $dash = '';
     $level = (isset($childs[$i]->childs)) ? 'main': 'sub';
     for($j=1; $j<=$i; $j++){
-        $dash .=  '&nbsp;&nbsp;';
+        $dash .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
     }
 
-    $contents.= '<li class="list-item">
+    $contents.= '<div class="cats-container">
+    <li class="list-item">
         <a class="list-link" data-level="'.$level.'" href='.url('shop?category=').$child->slug.' > '.$dash.'
-            <i class="fas fa-angle-right"></i>'.$child->categories_name.'  
+            '.$child->categories_name.'  
         </a>
-      <span class="categorycount"> ( '.$child->count.')</span>
-      </li>'; 
+      </li>
+      <span class="categorycount"> ('.$child->count.')</span>
+      </div>
+      '; 
 
     if(isset($child->childs)){
       $k = $i+1;
