@@ -70,6 +70,7 @@ class ProductsController extends Controller
     //shop
     public function shop(Request $request)
     {
+        
         $title = array('pageTitle' => Lang::get('website.Shop'));
         $result = array();
 
@@ -91,6 +92,13 @@ class ProductsController extends Controller
             $type = $request->type;
         } else {
             $type = '';
+        }
+        if (!empty($request->brands)) {
+           
+            $brands = $request->brands;
+           
+        } else {
+            $brands = 'all';
         }
 
         //min_max_price
@@ -174,8 +182,8 @@ class ProductsController extends Controller
         }
 
         $data = array('page_number' => $page_number, 'type' => $type, 'limit' => $limit,
-            'categories_id' => $categories_id, 'search' => $search,
-            'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
+            'categories_id' => $categories_id, 'search' => $search, 
+            'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,'brands' => $brands);
 
         $products = $this->products->products($data);
        // dd($products);
@@ -200,7 +208,12 @@ class ProductsController extends Controller
 
         $result['min_price'] = $min_price;
         $result['max_price'] = $max_price;
+        if (!empty($request->brands)) {
 
+            $returnHTML = view("web.common.productAjax", ['title' => $title, 'final_theme' => $final_theme])->with('products', $result['products'])->with('result', $result)->render();
+            return response()->json(array('success' => true, 'html'=>$returnHTML));
+        }
+        
         return view("web.shop", ['title' => $title, 'final_theme' => $final_theme])->with('result', $result);
 
     }
@@ -233,6 +246,13 @@ class ProductsController extends Controller
         } else {
             $type = '';
         }
+        if (!empty($request->brands)) {
+           
+            $brands = implode(',' ,$request->brands);
+            
+        } else {
+            $brands = 'all';
+        }
 
         //if(!empty($request->category_id)){
         if (!empty($request->category) and $request->category != 'all') {
@@ -242,6 +262,10 @@ class ProductsController extends Controller
         } else {
             $categories_id = '';
         }
+        // if(!empty($request->brands) and $request->brands != 'all'){
+        //     $allbrands = DB::table('manufacturers')->whereIn('manufacturers_id', $brands)->get();
+
+        // }
 
         //search value
         if (!empty($request->search)) {
@@ -272,7 +296,14 @@ class ProductsController extends Controller
             $filters = array();
         }
 
-        $data = array('page_number' => $request->page_number, 'type' => $type, 'limit' => $limit, 'categories_id' => $categories_id, 'search' => $search, 'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price);
+        $data = array('page_number' => $request->page_number,
+         'type' => $type,
+          'limit' => $limit,
+           'categories_id' => $categories_id,
+            'search' => $search,
+            
+             'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price
+            );
         $products = $this->products->products($data);
         $result['products'] = $products;
 
