@@ -63,12 +63,7 @@
         }
     },
     "minimum-stability": "dev",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "./packages/rehantariq/laravel-installer/"
-        }
-    ],
+
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
