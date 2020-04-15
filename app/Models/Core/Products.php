@@ -26,84 +26,15 @@ class Products extends Model
     public $sortableAs =['categories_name','products_name'];
 
 	public function paginator($request){
-        // $setting = new Setting();
-        // $myVarsetting = new SiteSettingController($setting);
-        // $commonsetting = $myVarsetting->commonsetting();
-        // $myVaralter = new AlertController($setting);
-        // $admin_id = auth()->user();
-
-        // $language_id = '1';
-        // $categories_id = $request->categories_id;
-        // $product  = $request->product;
-        // $results = array();
-        // $data = $this->sortable(['products_id'=>'DESC'])
-        //     ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
-        //     ->LeftJoin('manufacturers', function ($join) {
-        //         $join->on('manufacturers.manufacturers_id', '=', 'products.manufacturers_id');
-        //     })
-
-        //     ->LeftJoin('specials', function ($join) {
-        //         $join->on('specials.products_id', '=', 'products.products_id')->where('specials.status', '=', '1');
-        //     })
-        //     ->LeftJoin('image_categories', function ($join) {
-        //         $join->on('image_categories.image_id', '=', 'products.products_image')
-        //             ->where(function ($query) {
-        //                 $query->where('image_categories.image_type', '=', 'THUMBNAIL')
-        //                     ->where('image_categories.image_type', '!=', 'THUMBNAIL')
-        //                     ->orWhere('image_categories.image_type', '=', 'ACTUAL');
-        //             });
-        //     });
-
-
-        //     $data->leftJoin('products_to_categories', 'products.products_id', '=', 'products_to_categories.products_id')
-        //         ->leftJoin('categories', 'categories.categories_id', '=', 'products_to_categories.categories_id')
-        //         ->leftJoin('categories_description', 'categories.categories_id', '=', 'categories_description.categories_id');
-
-
-
-        // $data->select('products.*', 'products_description.*', 'specials.specials_id', 'manufacturers.*',
-        // 'specials.products_id as special_products_id', 'specials.specials_new_products_price as specials_products_price',
-        // 'specials.specials_date_added as specials_date_added', 'specials.specials_last_modified as specials_last_modified',
-        // 'specials.expires_date', 'image_categories.path as path', 'products.updated_at as productupdate', 'categories_description.categories_id',
-        // 'categories_description.categories_name')
-        //     ->where('products_description.language_id', '=', $language_id)
-        //     ->where('categories_description.language_id', '=', $language_id);
-
-        // if (isset($_REQUEST['categories_id']) and !empty($_REQUEST['categories_id'])) {
-        //     if (!empty(session('categories_id'))) {
-        //         $cat_array = explode(',', session('categories_id'));
-        //         $data->whereIn('products_to_categories.categories_id', '=', $cat_array);
-        //     }
-
-        //     $data->where('products_to_categories.categories_id', '=', $_REQUEST['categories_id']);
-
-        //     if (isset($_REQUEST['product']) and !empty($_REQUEST['product'])) {
-        //         $data->where('products_name', 'like', '%' . $_REQUEST['product'] . '%');
-        //     }
-
-        //     $products = $data->orderBy('products.products_id', 'DESC')
-        //     ->where('categories_status', '1')->paginate($commonsetting['pagination']);
-
-        // } else {
-
-        //     if (!empty(session('categories_id'))) {
-        //         $cat_array = explode(',', session('categories_id'));
-        //         $data->whereIn('products_to_categories.categories_id', $cat_array);
-        //     }
-        //     $products = $data->orderBy('products.products_id', 'DESC')
-        //     ->where('categories_status', '1')
-        //     ->where('is_current', '1')
-        //     ->groupBy('products.products_id')->paginate($commonsetting['pagination']);
-        // }
-
-        // return $products;
         $setting = new Setting();
         $myVarsetting = new SiteSettingController($setting);
         $commonsetting = $myVarsetting->commonsetting();
         $myVaralter = new AlertController($setting);
         $admin_id = auth()->user();
-
-
+        
+        
+       
+        
         $language_id = '1';
         $categories_id = $request->categories_id;
         $product  = $request->product;
@@ -133,7 +64,6 @@ class Products extends Model
 
 
 
-
         $data->select('products.*', 'products_description.*', 'specials.specials_id', 'manufacturers.*',
         'specials.products_id as special_products_id', 'specials.specials_new_products_price as specials_products_price',
         'specials.specials_date_added as specials_date_added', 'specials.specials_last_modified as specials_last_modified',
@@ -142,8 +72,7 @@ class Products extends Model
             ->where('products_description.language_id', '=', $language_id)
             ->where('categories_description.language_id', '=', $language_id);
 
-// dd($x);
-         $admin_id = auth()->user();
+           $admin_id = auth()->user();
        if ($admin_id->role_id==1) {
 
         if (isset($_REQUEST['categories_id']) and !empty($_REQUEST['categories_id'])) {
@@ -241,9 +170,7 @@ class Products extends Model
         }
         }
 
-
         return $products;
-    
     }
 
   public function getter(){
@@ -337,6 +264,7 @@ class Products extends Model
     }
     $products_id = DB::table('products')->insertGetId([
         'products_image' => $uploadImage,
+        'admin_id' => auth()->user()->id,
         'manufacturers_id' => $request->manufacturers_id,
         'products_quantity' => 0,
         'products_model' => $request->products_model,
