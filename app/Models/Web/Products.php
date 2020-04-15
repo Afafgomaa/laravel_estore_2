@@ -333,6 +333,7 @@ class Products extends Model
         if ($type == "special") { //deals special products
             $categories->where('specials.status', '=', '1')->where('expires_date', '>', $currentDate);
         }
+        
 
         if ($type == "flashsale") { //flashsale
             $categories->where('flash_sale.flash_status', '=', '1')->where('flash_expires_date', '>', $currentDate);
@@ -473,6 +474,7 @@ class Products extends Model
             if (!empty($max_price)) {
                 $categories->whereBetween('products.products_price', [$min_price, $max_price]);
             }
+            
 
             $categories->whereNotIn('products.products_id', function ($query) use ($currentDate) {
                 $query->select('flash_sale.products_id')->from('flash_sale')->where('flash_sale.flash_status', '=', '1');
@@ -558,6 +560,11 @@ class Products extends Model
         if (!empty($data['categories_id'])) {
             $categories->where('products_to_categories.categories_id', '=', $data['categories_id']);
             $categories->where('categories_description.language_id', '=', Session::get('language_id'));
+        }
+        if(isset($data['brands']) && is_array($data['brands'])){
+         
+            $categories->whereIn('products.manufacturers_id',array_values($data['brands']));
+            
         }
 
         $categories->orderBy($sortby, $order)->groupBy('products.products_id');

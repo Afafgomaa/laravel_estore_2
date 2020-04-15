@@ -1,4 +1,6 @@
   <!-- Shop Page One content -->
+
+  
   <div class="container-fuild">
       <nav aria-label="breadcrumb">
           <div class="container">
@@ -180,6 +182,8 @@
                                   </div>
                               </div>
                           </div>
+                          <!--- @-->
+                          @endif
                           @include('web.common.scripts.slider')
                           @if(count($result['filters']['attr_data'])>0)
                           @foreach($result['filters']['attr_data'] as $key=>$attr_data)
@@ -216,7 +220,7 @@
                               </div>
 
                               <div class="button">
-                                  <?php
+                              <?php
                  $url = '';
                        if(isset($_REQUEST['category'])){
                    $url = "?category=".$_REQUEST['category'];
@@ -228,6 +232,16 @@
                    $url.= $sign."search=".$_REQUEST['search'];
                  }
                ?>
+
+<?php
+                 function getCountProductInManfacture($brandId){
+                  $count = DB::table('products')->where('manufacturers_id',$brandId)->count();
+                 return $count;
+                 }
+                 
+                 
+                 ?>
+                  
                                   <a href="{{ URL::to('/shop')}}" class="btn btn-dark" id="apply_options">
                                       @lang('website.Reset') </a>
                                   @if(app('request')->input('filters_applied')==1)
@@ -252,7 +266,7 @@
                           @endif
                       </form>
                       @endif
-                      @endif
+                     
 
 
                       @if(!empty($result['commonContent']['manufacturers']) and
@@ -265,21 +279,21 @@
                           </a>
                           <div class="sub-manu collapse show multi-collapse" id="brands">
                               <div class=" searchFilter"><i class="fa fa-search ">
-                                  </i><input type="text" placeholder="بحث عن الماركة" class="" value="">
+                                  </i><input id="brandSearch" type="text" placeholder="بحث عن الماركة" class="" value="">
                               </div>
-                              <ul class="unorder-list">
+                              <ul class="unorder-list" id="brandtext">
                                   @foreach ($result['commonContent']['manufacturers'] as $item)
                                   <div class="cats-container">
-                                      <li class="list-item">
+                                      <li class="list-item" style="display:none">
                                           <input class="common_selector tag" type="checkbox"
                                               value="{{$item->manufacturers_id}}">
                                           <a class="brands-btn list-item" href="{{url($item->manufacturers_url)}}"
                                               role="button">{{$item->manufacturer_name}}</a>
                                       </li>
-                                      <span class="categorycount"> (0)</span>
+                                      <span class="categorycount"> ({{getCountProductInManfacture($item->manufacturers_id)}})</span>
                                   </div>
                                   @endforeach
-                                  <a class="showMore">عرض اكثر</a>
+                                  <a id="buttonShowMore" href="#" class="showMore">Show More</a>
                               </ul>
                           </div>
                       </div>
@@ -339,59 +353,108 @@
                       @endif
 
                   </div>
-
-
-
-
-              </div>
-          </div>
-
-          </div>
-      </section>
-
-  </section>
-
-  </section>
-
-  </div>
-
+                </div>
+              
+            </div>
+        </section> 
+     
+    </section>
+    
+   </section>
+  
+   </div>   
+  
   <script type="text/javascript">
-function filter_data() {
+  
+  function filter_data()
+                {
+               
+                  
+                    var brands  =   get_filter('tag');
+                    // window.location= window.location.href + '?brands=' + brands;
+                    
+                    
+                    $.ajax({
+                        url:'/shop',
+                        method:"post",
+                        data:{"_token": "{{ csrf_token() }}" ,brands:brands},
+                        success:function(data){
+                        $('.products-area .row').html(data.html);
+                        // console.log(data);
+                        },
+                        error:function(error){
+                            console.log(error);
+                        }
+                        
+
+                    })
 
 
-    var brands = get_filter('tag');
-    // window.location= window.location.href + '?brands=' + brands;
+                }
+                $('.common_selector').click(function(){
+                    filter_data();
+                });
+  
+                function get_filter(class_name)
+                    {
+                        var filter = [];
+                        $('.'+class_name+':checked').each(function(){
+                            filter.push($(this).val());
+                        });
+                        return filter;
+                    }
+
+  $(document).ready(function(){
+
+    $("#brandtext li").slice(0,5).show();
+    $('#buttonShowMore').click(function(e){
+      e.preventDefault();
+  var show = $(this).text();
+  
+     
+     if(show  == 'Show Less'){
+       show = 'Show More';
+      
+       $("#brandtext li").slice(5,$("#brandtext li").length).hide();
+      
+     }else{
+       show = 'Show Less';
+       $("#brandtext li").slice().show().slideDown();
+     }
+     
+     $(this).text(show)
+     
 
 
-    $.ajax({
-        url: '/shop',
-        method: "post",
-        data: {
-            "_token": "{{ csrf_token() }}",
-            brands: brands
-        },
-        success: function(data) {
-            $('.products-area .row').html(data.html);
-            // console.log(data);
-        },
-        error: function(error) {
-            console.log(error);
-        }
+   
+   
+})
 
-
-    })
-
-
-}
-$('.common_selector').click(function() {
-    filter_data();
-});
-
-function get_filter(class_name) {
-    var filter = [];
-    $('.' + class_name + ':checked').each(function() {
-        filter.push($(this).val());
+ 
+  $("#brandSearch").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#brandtext li").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      $('#buttonShowMore').hide();
     });
-    return filter;
-}
+  });
+  $("#brandSearch").on('blur',function(){
+    $('#buttonShowMore').show();
+  })
+
+
+  if($("#brandtext li").length <= 5){
+    $('#buttonShowMore').hide();
+  }else{
+    
+    $('#buttonShowMore').show();
+
+  }
+
+  
+ 
+});
+  
+
   </script>
+
