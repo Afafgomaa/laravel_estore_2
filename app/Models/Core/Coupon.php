@@ -29,12 +29,22 @@ class Coupon extends Model
 
     public function cutomers(){
 
+          $admin_id = auth()->user();
+         if ($admin_id->role_id==1) {
         $products = DB::table('products')
             ->LeftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
             ->select('products_name', 'products.products_id', 'products.products_model')->get();
-
+         }
+        else{
+            
+            $products = DB::table('products')
+            ->LeftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
+               ->where('products.admin_id','=', $admin_id->id) 
+            ->select('products_name', 'products.products_id', 'products.products_model')->get();
+        }
 
         return $products;
+
 
     }
 
@@ -52,9 +62,17 @@ class Coupon extends Model
 
     }
 
-    public  function coupon($code){
-
+     public  function coupon($code){
+        
         $couponInfo = DB::table('coupons')->where('code','=', $code)->get();
+         
+        
+        $admin_id = auth()->user();
+            $couponInfo = DB::table('coupons')
+                ->where('code','=', $code)
+                ->where('admin_id','=', $admin_id->id)
+                ->get();
+        
 
     return $couponInfo;
     }
@@ -64,7 +82,7 @@ class Coupon extends Model
                               $exclude_product_ids,$usage_limit,$usage_limit_per_user,$usage_count
                               ,$used_by,$limit_usage_to_x_items ,$product_categories,$excluded_product_categories,
                               $exclude_sale_items,$email_restrictions,$minimum_amount,$maximum_amount,$expiry_date,$free_shipping){
-
+$admin_id = auth()->user();
 
         $coupon_id = DB::table('coupons')->insertGetId([
             'code'  	 				 =>   $code,
@@ -87,7 +105,9 @@ class Coupon extends Model
             'minimum_amount'	 		 =>   $minimum_amount,
             'maximum_amount'	 		 =>   $maximum_amount,
             'expiry_date'				 =>	  $expiry_date,
-            'free_shipping'				 =>   $free_shipping
+            'free_shipping'				 =>   $free_shipping,
+            'admin_id'			    	 =>   $admin_id->id
+            	
         ]);
         return $coupon_id;
     }
@@ -186,9 +206,9 @@ class Coupon extends Model
 
      public function couponproduct(){
 
-         $coupons = DB::table('products')->get();
-
-
+         $coupons = DB::table('products')
+         ->where('products.admin_id','=', $admin_id->id)
+->get();
          return $coupons;
 
 

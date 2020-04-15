@@ -23,6 +23,7 @@ class ReportsController extends Controller
 
         $title = array('pageTitle' => Lang::get("labels.CustomerOrdersTotal"));
 
+        
         $cusomters = DB::table('users')
             ->join('orders', 'orders.customers_id', '=', 'users.id')
             ->select('users.*', 'order_price', DB::raw('SUM(order_price) as price'), DB::raw('count(orders_id) as total_orders'))
@@ -47,22 +48,48 @@ class ReportsController extends Controller
 
         $title = array('pageTitle' => Lang::get("labels.StatsProductsPurchased"));
 
-        $products = DB::table('products')
-            ->join('products_description', 'products_description.products_id', '=', 'products.products_id')
-            ->join('inventory', 'inventory.products_id', '=', 'products.products_id')
-            ->LeftJoin('image_categories', function ($join) {
+       $admin_id = auth()->user();
+        if ($admin_id->role_id==1) {
+		$products = DB::table('products')
+			->join('products_description', 'products_description.products_id', '=', 'products.products_id')
+			->join('inventory', 'inventory.products_id', '=', 'products.products_id')
+			->LeftJoin('image_categories', function ($join) {
                 $join->on('image_categories.image_id', '=', 'products.products_image')
                     ->where(function ($query) {
                         $query->where('image_categories.image_type', '=', 'THUMBNAIL')
                             ->where('image_categories.image_type', '!=', 'THUMBNAIL')
                             ->orWhere('image_categories.image_type', '=', 'ACTUAL');
                     });
-            })
-            ->select('products_description.*', 'image_categories.path as path', 'inventory.*')
-            ->where('stock_type', 'in')
-            ->orderBy('products_ordered', 'DESC')
-            ->where('products_description.language_id', '=', '1')
-            ->paginate(20);
+                
+			})
+			->select('products_description.*','image_categories.path as path', 'inventory.*')
+			->where('stock_type', 'in')
+			->orderBy('products_ordered', 'DESC')
+			->where('products_description.language_id','=','1')
+			->paginate(20);}
+        else{
+            
+            
+            $products = DB::table('products')
+			->join('products_description', 'products_description.products_id', '=', 'products.products_id')
+			->join('inventory', 'inventory.products_id', '=', 'products.products_id')
+			->LeftJoin('image_categories', function ($join) {
+                $join->on('image_categories.image_id', '=', 'products.products_image')
+                    ->where(function ($query) {
+                        $query->where('image_categories.image_type', '=', 'THUMBNAIL')
+                            ->where('image_categories.image_type', '!=', 'THUMBNAIL')
+                            ->orWhere('image_categories.image_type', '=', 'ACTUAL');
+                    });
+                
+			})
+                
+            ->where('products.admin_id','=', $admin_id->id)
+			->select('products_description.*','image_categories.path as path', 'inventory.*')
+			->where('stock_type', 'in')
+			->orderBy('products_ordered', 'DESC')
+			->where('products_description.language_id','=','1')
+			->paginate(20);
+        }
 
         $result['data'] = $products;
         //get function from other controller
@@ -79,13 +106,24 @@ class ReportsController extends Controller
     {
 
         $title = array('pageTitle' => Lang::get("labels.StatsProductsLiked"));
-
-        $products = DB::table('products')
-            ->join('products_description', 'products_description.products_id', '=', 'products.products_id')
-            ->where('products.products_liked', '>', '0')
-            ->where('products_description.language_id', '=', '1')
-            ->orderBy('products_liked', 'DESC')
-            ->paginate(20);
+       $admin_id = auth()->user();
+         if ($admin_id->role_id==1) {
+		$products = DB::table('products')
+			->join('products_description', 'products_description.products_id', '=', 'products.products_id')
+			->where('products.products_liked', '>', '0')
+			->where('products_description.language_id','=','1')
+			->orderBy('products_liked', 'DESC')
+			->paginate(20);}
+        else{
+            
+            $products = DB::table('products')
+			->join('products_description', 'products_description.products_id', '=', 'products.products_id')
+			->where('products.products_liked', '>', '0')
+            ->where('products.admin_id','=', $admin_id->id)
+			->where('products_description.language_id','=','1')
+			->orderBy('products_liked', 'DESC')
+			->paginate(20);
+        }
 
         $result['data'] = $products;
 
@@ -105,44 +143,92 @@ class ReportsController extends Controller
         $title = array('pageTitle' => Lang::get("labels.outOfStock"));
         $language_id = 1;
 
-        $products = DB::table('products')
-            ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
-            ->where('products_description.language_id', '=', $language_id)
-            ->orderBy('products.products_id', 'DESC')
-            ->get();
+ $admin_id = auth()->user();
+        if ($admin_id->role_id==1) {
 
-        $result = array();
-        $products_array = array();
-        $index = 0;
-        $lowLimit = 0;
-        $outOfStock = 0;
-        $products_ids = array();
-        $data = array();
-        foreach ($products as $products_data) {
-            $currentStocks = DB::table('inventory')->where('products_id', $products_data->products_id)->get();
+		$products = DB::table('products')
+			->leftJoin('products_description','products_description.products_id','=','products.products_id')
+			->where('products_description.language_id','=', $language_id)
+			->orderBy('products.products_id', 'DESC')
+			->get();
 
-            if (count($currentStocks) > 0) {
-                if ($products_data->products_type != 1) {
-                    $c_stock_in = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'in')->sum('stock');
-                    $c_stock_out = DB::table('inventory')->where('products_id', $products_data->products_id)->where('stock_type', 'out')->sum('stock');
+		$result = array();
+		$products_array  = array();
+		$index = 0;
+		$lowLimit = 0;
+		$outOfStock = 0;
+		$products_ids = array();
+		$data = array();
+		foreach($products as $products_data){
+			$currentStocks = DB::table('inventory')->where('products_id',$products_data->products_id)->get();
 
-                    if (($c_stock_in - $c_stock_out) == 0) {
-                        if (!in_array($products_data->products_id, $products_ids)) {
-                            $products_ids[] = $products_data->products_id;
-                            array_push($data, $products_data);
-                            $outOfStock++;
-                        }
-                    }
-                }
-            } else {
-                if (!in_array($products_data->products_id, $products_ids)) {
-                    $products_ids[] = $products_data->products_id;
-                    array_push($data, $products_data);
-                    $outOfStock++;
-                }
+			if(count($currentStocks)>0){
+				if($products_data->products_type!=1){
+					$c_stock_in = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','in')->sum('stock');
+					$c_stock_out = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','out')->sum('stock');
 
-            }
+					if(($c_stock_in-$c_stock_out)==0){
+						if(!in_array($products_data->products_id, $products_ids)){
+							$products_ids[] = $products_data->products_id;
+							array_push($data,$products_data);
+							$outOfStock++;
+						}
+					}
+				}
+			}else{
+				if(!in_array($products_data->products_id, $products_ids)){
+					$products_ids[] = $products_data->products_id;
+					array_push($data,$products_data);
+					$outOfStock++;
+				}
+
+			}
+		}
+
+		$result['products'] = $data;
+		$myVar = new SiteSettingController();
+		$result['currency'] = $myVar->getSetting();
         }
+        else{$products = DB::table('products')
+			->leftJoin('products_description','products_description.products_id','=','products.products_id')
+            ->where('products_description.language_id','=', $language_id)
+			 ->where('admin_id','=', $admin_id->id)
+			->orderBy('products.products_id', 'DESC')
+			->get();
+
+		$result = array();
+		$products_array  = array();
+		$index = 0;
+		$lowLimit = 0;
+		$outOfStock = 0;
+		$products_ids = array();
+		$data = array();
+		foreach($products as $products_data){
+			$currentStocks = DB::table('inventory')->where('products_id',$products_data->products_id)->get();
+
+			if(count($currentStocks)>0){
+				if($products_data->products_type!=1){
+					$c_stock_in = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','in')->sum('stock');
+					$c_stock_out = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','out')->sum('stock');
+
+					if(($c_stock_in-$c_stock_out)==0){
+						if(!in_array($products_data->products_id, $products_ids)){
+							$products_ids[] = $products_data->products_id;
+							array_push($data,$products_data);
+							$outOfStock++;
+						}
+					}
+				}
+			}else{
+				if(!in_array($products_data->products_id, $products_ids)){
+					$products_ids[] = $products_data->products_id;
+					array_push($data,$products_data);
+					$outOfStock++;
+				}
+
+			}
+		}
+            }
 
         $result['products'] = $data;
         $myVar = new SiteSettingController();
@@ -159,14 +245,25 @@ class ReportsController extends Controller
         $title = array('pageTitle' => Lang::get("labels.Low Stock Products"));
 
         $language_id = 1;
-
+$admin_id = auth()->user();
+        if ($admin_id->role_id==1) {
         $products = DB::table('products')
             ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
         //->leftJoin('inventory','inventory.products_id','=','products.products_id')
             ->where('products_description.language_id', '=', $language_id)
             ->orderBy('products.products_id', 'DESC')
+            ->get();}
+else{
+    
+    
+      $products = DB::table('products')
+            ->leftJoin('products_description', 'products_description.products_id', '=', 'products.products_id')
+        //->leftJoin('inventory','inventory.products_id','=','products.products_id')
+            ->where('products_description.language_id', '=', $language_id)
+            ->where('admin_id','=', $admin_id->id)
+            ->orderBy('products.products_id', 'DESC')
             ->get();
-
+}
         $result2 = array();
         $products_array = array();
         $index = 0;

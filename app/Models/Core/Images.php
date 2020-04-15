@@ -22,6 +22,8 @@ public $sortable =['id','name'];
     public function getimages(){
 
 
+       $admin_id = auth()->user();
+ if ($admin_id->role_id==1) {
        $allimagesth = DB::table('images')
             ->leftJoin('image_categories', 'images.id', '=', 'image_categories.image_id')
             ->select('path','images.id','image_type')
@@ -33,7 +35,22 @@ public $sortable =['id','name'];
             ->where('image_categories.image_type','ACTUAL')
 
             ->get();
-
+ }
+        else{
+            
+           $allimagesth = DB::table('images')
+            ->leftJoin('image_categories', 'images.id', '=', 'image_categories.image_id')
+            ->select('path','images.id','image_type')
+           ->where('image_categories.image_type','THUMBNAIL')
+           ->where('user_id', $admin_id->id)
+            ->get();
+        $allimages = DB::table('images')
+            ->leftJoin('image_categories', 'images.id', '=', 'image_categories.image_id')
+            ->select('path','images.id','image_type')
+            ->where('image_categories.image_type','ACTUAL')
+            ->where('user_id', $admin_id->id)
+            ->get(); 
+        }
          $result =$allimages ->merge($allimagesth)->keyBy('id');
 
        return $result;
