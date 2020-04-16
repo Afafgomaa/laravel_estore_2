@@ -100,6 +100,11 @@ class ProductsController extends Controller
         } else {
             $brands = 'all';
         }
+        if(isset($request->seller)){
+            $seller = $request->seller;
+        }else{
+            $seller = '';
+        }
 
         //min_max_price
         if (!empty($request->price)) {
@@ -183,7 +188,7 @@ class ProductsController extends Controller
 
         $data = array('page_number' => $page_number, 'type' => $type, 'limit' => $limit,
             'categories_id' => $categories_id, 'search' => $search, 
-            'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,'brands' => $brands);
+            'filters' => $filters, 'limit' => $limit, 'min_price' => $min_price, 'max_price' => $max_price,'brands' => $brands , 'seller' =>  $seller);
 
         $products = $this->products->products($data);
        // dd($products);
@@ -489,6 +494,7 @@ class ProductsController extends Controller
 
         $cart = '';
         $result['cartArray'] = $this->products->cartIdArray($cart);
+        $result['seller'] = DB::table('users')->where('id',$products[0]->admin_id)->first();
 
         //liked products
         $result['liked_products'] = $this->products->likedProducts();
@@ -520,4 +526,7 @@ class ProductsController extends Controller
         print_r(json_encode($result));
     }
 
+
+
 }
+
