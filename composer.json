@@ -25,7 +25,6 @@
         "php-http/guzzle6-adapter": "^2.0",
         "php-http/message": "^1.8",
         "razorpay/razorpay": "^2.5",
-        "rehan/laravel-installer": "dev-master",
         "spatie/db-dumper": "^2.14",
         "vinkla/instagram": "^9.3"
     },
