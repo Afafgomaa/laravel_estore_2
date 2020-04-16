@@ -27,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+
+        
+
         if(file_exists(storage_path('installed'))){
             $result = array();
             $orders = DB::table('orders')

@@ -233,14 +233,7 @@
                  }
                ?>
 
-<?php
-                 function getCountProductInManfacture($brandId){
-                  $count = DB::table('products')->where('manufacturers_id',$brandId)->count();
-                 return $count;
-                 }
-                 
-                 
-                 ?>
+
                   
                                   <a href="{{ URL::to('/shop')}}" class="btn btn-dark" id="apply_options">
                                       @lang('website.Reset') </a>
@@ -290,7 +283,7 @@
                                           <a class="brands-btn list-item" href="{{url($item->manufacturers_url)}}"
                                               role="button">{{$item->manufacturer_name}}</a>
                                       </li>
-                                      <span class="categorycount"> ({{getCountProductInManfacture($item->manufacturers_id)}})</span>
+                                      <span class="categorycount"> ({{getCountProductInManfactureINShop($item->manufacturers_id)}})</span>
                                   </div>
                                   @endforeach
                                   <a id="buttonShowMore" href="#" class="showMore">Show More</a>
