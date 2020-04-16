@@ -51,7 +51,9 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-
+<?php if(!isset($all_count)) {
+    $all_count = 0;
+} ?>
                             @for ($i = 0; $i < $all_count; $i++)
 
                                         @if(count($listingOrders[$i][0]['orders'])>0)
