@@ -3168,3 +3168,10 @@
 $(".main-manu").on("click", function() {
     $(this).next().toggle()
 })
+
+$("#brandSearch").focus(function() {
+    $(this).prev().hide()
+})
+$("#brandSearch").blur(function() {
+    $(this).prev().show()
+})

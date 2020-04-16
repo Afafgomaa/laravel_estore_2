@@ -25,12 +25,21 @@ class CouponsController extends Controller
     public function display(Request $request)
     {
 
+        
+        
+       $admin_id = auth()->user();
         $title = array('pageTitle' => Lang::get("labels.ListingCoupons"));
         $result = array();
         $message = array();
-        $coupons = Coupon::sortable()
-            ->orderBy('created_at', 'DESC')
-            ->paginate(7);
+         if ($admin_id->role_id==1) {
+            $coupons = Coupon::sortable()
+                ->orderBy('created_at', 'DESC')
+                
+                ->paginate(7);}
+        else{$coupons = Coupon::sortable()
+                ->orderBy('created_at', 'DESC')
+                ->where('admin_id','=', $admin_id->id)
+                ->paginate(7);}
         $result['coupons'] = $coupons;
         //get function from other controller
         $result['currency'] = $this->myVarSetting->getSetting();
@@ -39,49 +48,82 @@ class CouponsController extends Controller
 
     }
 
-    public function filter(Request $request)
+       public function filter(Request $request)
     {
-
+       $admin_id = auth()->user();
         $result = array();
         $message = array();
         $title = array('pageTitle' => Lang::get("labels.EditSubCategories"));
         $name = $request->FilterBy;
         $param = $request->parameter;
-        switch ($name) {
-            case 'Code':$coupons = Coupon::sortable()->where('code', 'LIKE', '%' . $param . '%')
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(7);
+       if ($admin_id->role_id==1) {
+        switch ( $name ) {
+            case 'Code':  $coupons = Coupon::sortable()->where('code', 'LIKE', '%' .  $param . '%')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(7);
 
                 break;
-            case 'CouponType':$coupons = Coupon::sortable()->where('discount_type', 'LIKE', '%' . $param . '%')
-                    ->orderBy('created_at', 'DESC')
-                    ->paginate(7);
+            case 'CouponType': $coupons = Coupon::sortable()->where('discount_type', 'LIKE', '%' .  $param . '%')
+                ->orderBy('created_at', 'DESC')
+                ->paginate(7);
 
                 break;
             case 'CouponAmount':
-                $coupons = Coupon::sortable()->where('amount', 'LIKE', '%' . $param . '%')
+                $coupons = Coupon::sortable()->where('amount', 'LIKE', '%' .  $param . '%')
                     ->orderBy('created_at', 'DESC')
                     ->paginate(7);
 
                 break;
             case 'Description':
-                $coupons = Coupon::sortable()->where('description', 'LIKE', '%' . $param . '%')
+                $coupons = Coupon::sortable()->where('description', 'LIKE', '%' .  $param . '%')
                     ->orderBy('created_at', 'DESC')
                     ->paginate(7);
 
                 break;
-            default:
+            default :
+
+                break;}
+        
+        
+        }
+        
+        else{switch ( $name ) {
+            case 'Code':  $coupons = Coupon::sortable()->where('code', 'LIKE', '%' .  $param . '%')
+                ->orderBy('created_at', 'DESC')
+                 ->where('admin_id','=', $admin_id->id)
+                ->paginate(7);
 
                 break;
-        }
+            case 'CouponType': $coupons = Coupon::sortable()->where('discount_type', 'LIKE', '%' .  $param . '%')
+                ->orderBy('created_at', 'DESC')
+                 ->where('admin_id','=', $admin_id->id)
+                ->paginate(7);
 
+                break;
+            case 'CouponAmount':
+                $coupons = Coupon::sortable()->where('amount', 'LIKE', '%' .  $param . '%')
+                    ->orderBy('created_at', 'DESC')
+                     ->where('admin_id','=', $admin_id->id)
+                    ->paginate(7);
+
+                break;
+            case 'Description':
+                $coupons = Coupon::sortable()->where('description', 'LIKE', '%' .  $param . '%')
+                    ->orderBy('created_at', 'DESC')
+                     ->where('admin_id','=', $admin_id->id)
+                    ->paginate(7);
+
+                break;
+            default :
+
+                break;}
+        }
         $result['coupons'] = $coupons;
         //get function from other controller
         $result['currency'] = $this->myVarSetting->getSetting();
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.coupons.index", $title)->with('result', $result)->with('coupons', $coupons)->with('name', $name)->with('param', $param);
     }
-
     public function add(Request $request)
     {
 
