@@ -56,7 +56,10 @@
         "classmap": [
             "database/seeds",
             "database/factories"
-        ]
+        ],
+        "files": [
+            "app/Helpers/getCountProductInManfacture.php"
+      ]
     },
     "autoload-dev": {
         "psr-4": {

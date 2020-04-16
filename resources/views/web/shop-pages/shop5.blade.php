@@ -232,109 +232,99 @@
                  }
                ?>
 
-                                <?php
-                 function getCountProductInManfacture($brandId){
-                  $count = DB::table('products')->where('manufacturers_id',$brandId)->count();
-                 return $count;
-                 }
-                 
-                 
-                 ?>
 
-                                <a href="{{ URL::to('/shop')}}" class="btn btn-dark" id="apply_options">
-                                    @lang('website.Reset') </a>
-                                @if(app('request')->input('filters_applied')==1)
-                                <button type="button" class="btn btn-secondary" id="apply_options_btn">
-                                    @lang('website.Apply')</button>
-                                @else
-                                <!--<button type="button" class="btn btn-secondary" id="apply_options_btn" disabled> @lang('website.Apply')</button>-->
-                                <button type="button" class="btn btn-secondary" id="apply_options_btn">
-                                    @lang('website.Apply')</button>
-                                @endif
-                            </div>
-                        </div>
-                        @if(count($result['commonContent']['homeBanners'])>0)
-                        @foreach(($result['commonContent']['homeBanners']) as $homeBanners)
-                        @if($homeBanners->type==7)
-                        <div class="img-main">
-                            <a href="{{ $homeBanners->banners_url}}"><img class="img-fluid"
-                                    src="{{asset('').$homeBanners->path}}"></a>
-                        </div>
-                        @endif
-                        @endforeach
-                        @endif
-                    </form>
-                    @endif
+                  
+                                  <a href="{{ URL::to('/shop')}}" class="btn btn-dark" id="apply_options">
+                                      @lang('website.Reset') </a>
+                                  @if(app('request')->input('filters_applied')==1)
+                                  <button type="button" class="btn btn-secondary" id="apply_options_btn">
+                                      @lang('website.Apply')</button>
+                                  @else
+                                  <!--<button type="button" class="btn btn-secondary" id="apply_options_btn" disabled> @lang('website.Apply')</button>-->
+                                  <button type="button" class="btn btn-secondary" id="apply_options_btn">
+                                      @lang('website.Apply')</button>
+                                  @endif
+                              </div>
+                          </div>
+                          @if(count($result['commonContent']['homeBanners'])>0)
+                          @foreach(($result['commonContent']['homeBanners']) as $homeBanners)
+                          @if($homeBanners->type==7)
+                          <div class="img-main">
+                              <a href="{{ $homeBanners->banners_url}}"><img class="img-fluid"
+                                      src="{{asset('').$homeBanners->path}}"></a>
+                          </div>
+                          @endif
+                          @endforeach
+                          @endif
+                      </form>
+                      @endif
+                     
 
 
+                      @if(!empty($result['commonContent']['manufacturers']) and
+                      count($result['commonContent']['manufacturers'])>0)
+                      <div class="range-slider-main">
 
-                    @if(!empty($result['commonContent']['manufacturers']) and
-                    count($result['commonContent']['manufacturers'])>0)
-                    <div class="range-slider-main">
+                          <a class=" main-manu" data-toggle="collapse" href="#brands" role="button" aria-expanded="true"
+                              aria-controls="men-cloth">
+                              @lang('website.Brands')
+                          </a>
+                          <div class="sub-manu collapse show multi-collapse" id="brands">
+                              <div class=" searchFilter"><i class="fa fa-search ">
+                                  </i><input id="brandSearch" type="text" placeholder="بحث عن الماركة" class="" value="">
+                              </div>
+                              <ul class="unorder-list" id="brandtext">
+                                  @foreach ($result['commonContent']['manufacturers'] as $item)
+                                  <div class="cats-container">
+                                      <li class="list-item" style="display:none">
+                                          <input class="common_selector tag" type="checkbox"
+                                              value="{{$item->manufacturers_id}}">
+                                          <a class="brands-btn list-item" href="{{url($item->manufacturers_url)}}"
+                                              role="button">{{$item->manufacturer_name}}</a>
+                                      </li>
+                                      <span class="categorycount"> ({{getCountProductInManfactureINShop($item->manufacturers_id)}})</span>
+                                  </div>
+                                  @endforeach
+                                  <a id="buttonShowMore" href="#" class="showMore">Show More</a>
+                              </ul>
+                          </div>
+                      </div>
+                      @endif
 
-                        <a class=" main-manu" data-toggle="collapse" href="#brands" role="button" aria-expanded="true"
-                            aria-controls="men-cloth">
-                            @lang('website.Brands')
-                        </a>
-                        <div class="sub-manu collapse show multi-collapse" id="brands">
-                            <div class=" searchFilter"><i class="fa fa-search ">
-                                </i><input id="brandSearch" type="text" placeholder="بحث عن الماركة" class="" value="">
-                            </div>
-                            <ul class="unorder-list" id="brandtext">
-                                @foreach ($result['commonContent']['manufacturers'] as $item)
+                  </div>
 
-                                <li class="list-item cats-container" style="display:none">
-                                    <div>
-                                        <input class="common_selector tag" type="checkbox"
-                                            value="{{$item->manufacturers_id}}">
-                                        <a class="brands-btn list-item" href="{{url($item->manufacturers_url)}}"
-                                            role="button">{{$item->manufacturer_name}}</a>
-                                    </div>
-                                    <span class="categorycount">
-                                        ({{getCountProductInManfacture($item->manufacturers_id)}})</span>
-                                </li>
+                  <div class="col-12 col-lg-9">
+                      @if($result['products']['success']==1)
+                      <div class="products-area">
 
-                                @endforeach
-                                <a id="buttonShowMore" href="#" class="showMore">Show More</a>
-                            </ul>
-                        </div>
-                    </div>
-                    @endif
+                          <section id="swap" class="shop-content">
+                              <div class="products-area">
+                                  <div class="row">
 
-                </div>
+                                      @foreach($result['products']['product_data'] as $key=>$products)
+                                      <div class="col-12 col-lg-4 col-sm-6 griding">
+                                          @include('web.common.product')
+                                      </div>
+                                      @endforeach
+                                      @include('web.common.scripts.addToCompare')
 
-                <div class="col-12 col-lg-9">
-                    @if($result['products']['success']==1)
-                    <div class="products-area">
-
-                        <section id="swap" class="shop-content">
-                            <div class="products-area">
-                                <div class="row">
-
-                                    @foreach($result['products']['product_data'] as $key=>$products)
-                                    <div class="col-12 col-lg-4 col-sm-6 griding">
-                                        @include('web.common.product')
-                                    </div>
-                                    @endforeach
-                                    @include('web.common.scripts.addToCompare')
-
-                                </div>
-                            </div>
-                        </section>
-                    </div>
+                                  </div>
+                              </div>
+                          </section>
+                      </div>
 
 
-                    <div class="pagination justify-content-between ">
-                        <input id="record_limit" type="hidden" value="{{$result['limit']}}">
-                        <input id="total_record" type="hidden" value="{{$result['products']['total_record']}}">
-                        <label for="staticEmail" class="col-form-label"> @lang('website.Showing')&nbsp;<span
-                                class="showing_record">{{$result['limit']}}</span>&nbsp;@lang('website.of')&nbsp;<span
-                                class="showing_total_record">{{$result['products']['total_record']}}</span>
-                            &nbsp;@lang('website.results')</label>
+                      <div class="pagination justify-content-between ">
+                          <input id="record_limit" type="hidden" value="{{$result['limit']}}">
+                          <input id="total_record" type="hidden" value="{{$result['products']['total_record']}}">
+                          <label for="staticEmail" class="col-form-label"> @lang('website.Showing')&nbsp;<span
+                                  class="showing_record">{{$result['limit']}}</span>&nbsp;@lang('website.of')&nbsp;<span
+                                  class="showing_total_record">{{$result['products']['total_record']}}</span>
+                              &nbsp;@lang('website.results')</label>
 
-                        <div class=" justify-content-end col-6">
-                            <input type="hidden" value="1" name="page_number" id="page_number">
-                            <?php
+                          <div class=" justify-content-end col-6">
+                              <input type="hidden" value="1" name="page_number" id="page_number">
+                              <?php
                                     if(!empty(app('request')->input('limit'))){
                                         $record = app('request')->input('limit');
                                     }else{
