@@ -75,13 +75,14 @@ class OrdersController extends Controller
     $all_count = count($all);
   }
   // echo print_r($all);
-   //dd($all[0][0]['orders']);
+  
 
   // return view("admin.Orders.index", $title)->with('listingOrders', $all  ,'all_count',$all_count);
   $result['commonContent'] = $this->Setting->commonContent();
   return view('admin.Orders.index',$title)->with(['listingOrders'=> $all,'all_count'=>$all_count])->with('result', $result);
 
       } else {
+
 
         $title = array('pageTitle' => Lang::get("labels.ListingOrders"));
         //$language_id                            =   $request->language_id;
@@ -141,6 +142,7 @@ foreach ($orders_products as $value){
    }else {
      $all_count = count($all);
    }
+   dd( $all_count);
    $result['commonContent'] = $this->Setting->commonContent();
 // return view("admin.Orders.index", $title)->with('listingOrders', $all  ,'all_count',$all_count);
 

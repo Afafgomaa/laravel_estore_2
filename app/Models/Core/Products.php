@@ -1182,7 +1182,9 @@ class Products extends Model
 
                 })
                 ->select('products.*', 'products_description.*', 'manufacturers.*', 'manufacturers_info.manufacturers_url', 'specials.specials_id', 'specials.products_id as special_products_id', 'specials.specials_new_products_price as specials_products_price', 'specials.specials_date_added as specials_date_added', 'specials.specials_last_modified as specials_last_modified', 'specials.expires_date')
-                ->where('products_description.language_id', '=', $language_id);
+                ->where('products_description.language_id', '=', $language_id)
+                ->where('products.admin_id',Auth()->user()->id);
+
 
     $product =  $product->get();
     $result['products'] = $product;

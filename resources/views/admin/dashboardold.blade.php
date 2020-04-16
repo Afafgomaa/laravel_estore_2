@@ -3,17 +3,18 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
+        
             <h1>
-            <small>{{ trans('labels.title_dashboard') }} {{$result['commonContent']['setting']['admin_version']}}</small>
+                <small>{{ trans('labels.title_dashboard') }} {{$result['commonContent']['setting']['admin_version']}}</small>
             </h1>
             <ol class="breadcrumb">
                 <li class="active"><i class="fa fa-dashboard"></i> {{ trans('labels.breadcrumb_dashboard') }}</li>
-            </ol>
+            </ol> 
         </section>
 
-        <!-- Main content -->
+        <!-- Main content  ->dashboard_view -->
         <section class="content">
-            @if( $result['commonContent']['roles'] != null and $result['commonContent']['roles']->dashboard_view == 1)
+            @if( Auth()->user()->role_id != null and Auth()->user()->role_id == 1)
             <div class="row">
                 <div class="col-lg-4 col-xs-6">
                   <!-- small box -->
@@ -70,6 +71,7 @@
                     <a href="{{ URL::to('admin/outofstock')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.outOfStock') }}">{{ trans('labels.outOfStock') }} <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
+                @if(auth()->user()->role_id == 1)
                 <!-- ./col -->
                 <div class="col-lg-4 col-xs-6">
                   <!-- small box -->
@@ -85,6 +87,7 @@
                     <a href="{{ URL::to('admin/customers/display')}}" class="small-box-footer" data-toggle="tooltip" data-placement="bottom" title="{{ trans('labels.viewAllCustomers') }}">{{ trans('labels.viewAllCustomers') }}  <i class="fa fa-arrow-circle-right"></i></a>
                   </div>
                 </div>
+                @endif
                 <!-- ./col -->
                 <div class="col-lg-4 col-xs-6">
                   <!-- small box -->
@@ -163,7 +166,7 @@
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                 </button>
-                                
+
                                 <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
                         </div>
@@ -239,13 +242,14 @@
             <!-- Main row -->
             <div class="row">
                 <!-- Left col -->
+             
                 <div class="col-md-8">
                     <!-- MAP & BOX PANE -->
 
                     <!-- /.box -->
                     <div class="row">
                         <!-- /.col -->
-
+                    @if(auth()->user()->role_id == 1)
                         <div class="col-md-12">
                             <!-- USERS LIST -->
                             <div class="box box-danger">
@@ -291,13 +295,16 @@
                                 <!-- /.box-footer -->
                             </div>
                             <!--/.box -->
+                           
                         </div>
                         <!-- /.col -->
+                        @endif
                     </div>
                     <!-- /.row -->
 
-                    <!-- TABLE: LATEST ORDERS -->
-                    <div class="box box-info">
+                   @if(auth()->user()->role_id == 1)
+ <!-- TABLE: LATEST ORDERS -->
+ <div class="box box-info">
                         <div class="box-header with-border">
                             <h3 class="box-title">{{ trans('labels.NewOrders') }}</h3>
 
@@ -327,7 +334,7 @@
                                                     <tr>
                                                         <td><a href="{{ URL::to('admin/orders/vieworder/') }}/{{ $orders->orders_id }}" data-toggle="tooltip" data-placement="bottom" title="Go to detail">{{ $orders->orders_id }}</a></td>
                                                         <td>{{ $orders->customers_name }}</td>
-                                                        <td>{{ $result['commonContent']['setting']['currency_symbol'] }}{{ floatval($orders->total_price) }} </td>
+                                                        <td>{{ $result['currency'][19]->value }}{{ floatval($orders->total_price) }} </td>
                                                         <td>
                                                             @if($orders->orders_status_id==1)
                                                                 <span class="label label-warning"></span>
@@ -369,6 +376,12 @@
                         <!-- /.box-footer -->
                     </div>
                     <!-- /.box -->
+
+                  @endif
+                  
+
+
+                   
                 </div>
                 <!-- /.col -->
 
@@ -449,7 +462,7 @@
                                         </div>
                                         <div class="product-info">
                                             <a href="{{ URL::to('admin/products/edit') }}/{{ $recentProducts->products_id }}" class="product-title">{{ $recentProducts->products_name }}
-                                                <span class="label label-warning label-succes pull-right">{{ $result['commonContent']['setting']['currency_symbol'] }}{{ floatval($recentProducts->products_price) }}</span></a>
+                                                <span class="label label-warning label-succes pull-right">{{ $result['commonContent']['setting'] }}{{ floatval($recentProducts->products_price) }}</span></a>
                                         </div>
                                     </li>
                                 @endforeach
@@ -465,6 +478,7 @@
                 </div>
                 <!-- /.col -->
             </div>
+        
             @endif
             <!-- /.row -->
         </section>
@@ -474,3 +488,4 @@
 
     {{--<script src="{!! asset('dist/js/pages/dashboard2.js') !!}"></script>--}}
 @endsection
+
