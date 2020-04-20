@@ -129,67 +129,49 @@
         
         <div class="navbar-collapse" >
           <ul class="navbar-nav">
-          <li data-category="all">كل الفئات</li>
-          
-            @foreach($result['commonContent']["categories"] as $menus)
-                <li data-category="{{$menus->id}}">{{$menus->name}}</li>
-                <div id="categoryDeatiles{{$menus->id}}" class="linksC" style="display:none">
-                   @if(count($menus->sub_categories))
-                   <ul>
-                   <li>فئات المنتجات</li>
-                   <p>افضل الماركات</p>
-                    @foreach($menus->sub_categories as $sub)
-                      <li>{{$sub->sub_name}}</li>
-                   
-                    
+            @foreach($result['commonContent']["menus"] as $menus)
+            
+                <li class="nav-item dropdown">
+                  <a class="nav-link @if(array_key_exists("childs",$menus)) dropdown-toggle @endif" @if($menus->type == 0)target="_blank"@endif  @if($menus->type == 0) href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}" @else href="#" @endif >
+                    {{$menus->name}}
+                  </a>
+                  @if(array_key_exists("childs",$menus))
+                  <div class="dropdown-menu">
+                    <?php
+                    $array = (array) $menus->childs;
+                    $key = "sub_sort_order";
+                        $sorter=array();
+                        $ret=array();
+                        reset($array);
+                        foreach ($array as $ii => $va) {
+                          $va = (array) $va;
 
-                    <li><a href="/shop?{{$sub->brand}}"><img src="{{$sub->brandImage}}"></a></li>
-                    
-                     
+                            $sorter[$ii]=$va[$key];
+                        }
+                        asort($sorter);
+                        foreach ($sorter as $ii => $va) {
+                            $ret[$ii]=$array[$ii];
+                        }
+                        $array=$ret;
+                     ?>
+                    @foreach($array as $me)
+                    <a class="dropdown-item" @if($me->type == 0)target="_blank"@endif  @if($me->type == 0) href="{{$me->external_link}}" @elseif($me->type == 1) href="{{url($me->link)}}" @else href="#" @endif  >
+                      {{$me->name}}
+                    </a>
                     @endforeach
-
-                   
-               
-                   </ul>
-                   <img src="{{asset('').$menus->path}}">
-                   <img src="{{asset('').$menus->path}}">
-                   
-                @endif
-                </div>
-              @endforeach
+                  </div>
+                  @endif
+                </li>
+                @endforeach
+                <li class="nav-item ">
+                  <a class="nav-link">
+                      <span>@lang('website.hotline')</span>
+                      {{$result['commonContent']['setting'][11]->value}}
+                  </a>
+                </li>
           </ul>
         </div>
       </nav>
-      
     </div>
   </div>
 </header>
-
-
-<script type="text/javascript">
-$('.linksC').hide()
-
-$('.navbar-nav li').hover(function(){
-  var elemId = $(this).data('category');
- $('#categoryDeatiles'+elemId).show().slideDown();
-
-
-// $.post({
-//   url:'/relatedCatgory',
-//   data :{ '_token': '{{csrf_token()}}', id:elemId},
-//   success: function(data) {
-//     $('#categoryDeatiles'+elemId).show()
-//             $('#categoryDeatiles'+elemId).html(data);
-//         },
-//   error: function(msg) {
-//             alert('failed' + msg);
-//         }
-
-// })
-
-},function(){
-  var elemId = $(this).data('category');
- $('#categoryDeatiles'+elemId).css('display','none');
-
-})
-</script>

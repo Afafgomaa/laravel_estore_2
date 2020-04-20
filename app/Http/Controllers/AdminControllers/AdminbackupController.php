@@ -29,6 +29,7 @@ class AdminController extends Controller
     }
 
 	public function dashboard(Request $request){
+		
 		$title 			  = 	array('pageTitle' => Lang::get("labels.title_dashboard"));
 		$language_id      = 	'1';
 

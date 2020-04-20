@@ -350,11 +350,12 @@ class Index extends Model
             $comma_categories[] = $category->name;
         }
 
-        $result['comma_categories'] = implode(',', $comma_categories);       
+        $result['comma_categories'] = implode(',', $comma_categories);
+         
         return $categories;
     }
 
-    private function categories()
+    protected function categories()
     {
 
         $result = array();
@@ -443,11 +444,14 @@ class Index extends Model
 
                 $individual_products = DB::table('products_to_categories')
                     ->LeftJoin('products', 'products.products_id', '=', 'products_to_categories.products_id')
-                    ->select('products_to_categories.categories_id', DB::raw('COUNT(DISTINCT products.products_id) as total_products'))
+                    ->LeftJoin('manufacturers','manufacturers.manufacturers_id','products.manufacturers_id')
+                    ->select('products_to_categories.categories_id', DB::raw('COUNT(DISTINCT products.products_id) as total_products')
+                    , 'manufacturers.manufacturers_id as brandId','manufacturers.manufacturer_image as brandImage')
                     ->where('products_to_categories.categories_id', '=', $sub_categories_id)
                     ->get();
-
                 $sub_categories_data->total_products = $individual_products[0]->total_products;
+                $sub_categories_data->brand = $individual_products[0]->brandId;
+                $sub_categories_data->brandImage = $individual_products[0]->brandImage;
                 $data[$index2++] = $sub_categories_data;
 
             }
@@ -455,6 +459,7 @@ class Index extends Model
             $result[$index++]->sub_categories = $data;
 
         }
+     
         return ($result);
 
     }
