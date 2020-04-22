@@ -41,6 +41,8 @@
         </div>
         <div class="col-12 col-md-8">
           <ul class="link-list">
+              
+              
             <li class="">
               <div class="link-item">
                 <div class="avatar">
@@ -60,6 +62,7 @@
                 <span><?php if(auth()->guard('customer')->check()){ ?>@lang('website.Welcome') {{auth()->guard('customer')->user()->first_name}} &nbsp;! <?php }?> </span>
               </div>
             </li>
+              
 
             <?php if(auth()->guard('customer')->check()){ ?>
             <li class="link-item"> <a href="{{url('profile')}}" >@lang('website.Profile')</a> </li>
@@ -72,6 +75,8 @@
               <li class="link-item"> <a href="{{ URL::to('/login')}}"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;@lang('website.Login/Register')</a> </li>
 
             <?php } ?>
+              
+              <li class="link-item"><a href="../../../../seller3333333/index.php">seller</a></li>
           </ul> 
             
         </div>

@@ -19,7 +19,7 @@ class Categories extends Model
         return $this->beliesngsTo('App\Categories_description');
     }
 
-    public $sortable =['categories_id','created_at'];
+//    public $sortable =['categories_icon','created_at'];
     public $sortableAs =['categories_name'];
 
     public function recursivecategories(){
@@ -76,7 +76,8 @@ class Categories extends Model
       $myVarsetting = new SiteSettingController($setting);
       $commonsetting = $myVarsetting->commonsetting();
 
-      $categories = Categories::sortable(['categories_id'=>'ASC'])
+      $categories = Categories::sortable(['parent_id'=>'ASC','created_at'=>'DESC'])
+         
            ->leftJoin('categories_description','categories_description.categories_id', '=', 'categories.categories_id')
            ->LeftJoin('image_categories as categoryTable', function ($join) {
                 $join->on('categoryTable.image_id', '=', 'categories.categories_image')
@@ -101,10 +102,10 @@ class Categories extends Model
             'categories.categories_status  as categories_status')
          
             ->where('categories_description.language_id', '1')
-            
+           
             ->groupby('categories.categories_id')
             ->paginate($commonsetting['pagination']);
-
+//dd($categories);
             return $categories;
     }
 
