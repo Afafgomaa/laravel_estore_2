@@ -213,7 +213,6 @@
             @else
             <price class="total_price">{{Session::get('symbol_left')}}{{$orignal_price+0}}{{Session::get('symbol_right')}}</price>
             @endif
-                               
             </div>
 
             <div class="pro-rating">
@@ -331,7 +330,7 @@
             @endforeach
           </div>
           @endif
-        
+
       
          @if(!empty($result['detail']['product_data'][0]->flash_start_date))
           <div class="countdown pro-timer" data-toggle="tooltip" data-placement="bottom" title="@lang('website.Countdown Timer')" id="counter_{{$result['detail']['product_data'][0]->products_id}}" >                               
@@ -372,7 +371,7 @@
                   @if($result['detail']['product_data'][0]->products_type == 2)
                     <a href="{{$result['detail']['product_data'][0]->products_url}}" target="_blank" class="btn btn-secondary btn-lg swipe-to-top">@lang('website.External Link')</a>
                   @endif               
-        
+
           </div>
           
         </form>
@@ -392,7 +391,7 @@
                 </div>
                 <script async src="https://static.addtoany.com/menu/page.js"></script>
                 <!-- AddToAny END -->
-              
+                <a class="btn btn-secondary" href="{{url('shop?seller='. $result['seller']->id)}}">{{$result['seller']->first_name}}</a>  
           </div>
           
           </div>
@@ -489,7 +488,8 @@
                         @endif
                     </div>
 
-                      
+                                       
+
                   </div> 
               </div>
           </div>      
@@ -499,6 +499,7 @@
       </div>
     </div>
   </div>
+
 </section>
 
 

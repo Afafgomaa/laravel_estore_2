@@ -786,8 +786,8 @@ $result['totalProducts'] = count($products);
     		$myid = $request->myid;
 
     		DB::table('users')->where('id','=', $myid)->delete();
-
-    		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminMessage")]);
+dd('sad');
+//    		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminMessage")]);
 
     	}
 
@@ -889,12 +889,12 @@ $result['totalProducts'] = count($products);
 
 	//deleteProduct
 	public function deleteadmintype(Request $request){
-
-		$user_types_id = $request->user_types_id;
-
-		DB::table('user_types')->where('user_types_id','=', $user_types_id)->delete();
-
-		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminTypeMessage")]);
+dd($request);
+//		$user_types_id = $request->user_types_id;
+//
+//		DB::table('user_types')->where('user_types_id','=', $user_types_id)->delete();
+//
+//		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminTypeMessage")]);
 
 	}
 

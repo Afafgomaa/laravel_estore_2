@@ -344,6 +344,9 @@ class Products extends Model
             });
 
         }
+        if(isset($data['seller']) && !empty($data['seller'])){
+            $categories->where('products.admin_id',$data['seller']);
+        }
 
         //get single products
         if (!empty($data['products_id']) && $data['products_id'] != "") {
