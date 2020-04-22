@@ -786,8 +786,8 @@ $result['totalProducts'] = count($products);
     		$myid = $request->myid;
 
     		DB::table('users')->where('id','=', $myid)->delete();
-dd('sad');
-//    		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminMessage")]);
+
+    		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminMessage")]);
 
     	}
 
