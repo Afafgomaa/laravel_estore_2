@@ -26,7 +26,9 @@
 		<script src="https://js.stripe.com/v3/"></script>
 
 		<link rel="stylesheet" type="text/css" href="{{asset('web/css/stripe.css') }}" data-rel-css="" />
+		>
 
+		
 		<!------- paypal ---------->
 		<script src="https://www.paypalobjects.com/api/checkout.js"></script>
 		<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -61,3 +63,5 @@
     @if(!empty($result['commonContent']['setting'][76]->value))
 		<?=stripslashes($result['commonContent']['setting'][76]->value)?>
     @endif
+	<link rel="stylesheet" type="text/css" href="{{asset('web/css/main.css') }}" data-rel-css="" />
+		<link rel="stylesheet" type="text/css" href="{{asset('web/css/bootstrap.min.css') }}" data-rel-css="" /

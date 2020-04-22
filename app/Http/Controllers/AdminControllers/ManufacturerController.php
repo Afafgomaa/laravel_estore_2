@@ -34,6 +34,7 @@ class ManufacturerController extends Controller
         $allimage = $this->images->getimages();
         $title = array('pageTitle' => Lang::get("labels.AddManufacturer"));
         $result['commonContent'] = $this->Setting->commonContent();
+        $result['categoryParent'] = \DB::table('categories')->where('parent_id','0')->get();
         return view("admin.manufacturers.add", $title)->with('allimage', $allimage)->with('result', $result);
     }
 

@@ -122,16 +122,17 @@
             <div class="row">
 
                 <div class="col-12 col-lg-3  d-lg-block d-xl-block right-menu">
-                    <a class=" main-manu" data-toggle="collapse" href="#cats" role="button" aria-expanded="true"
+                    <!-- <a class=" main-manu" data-toggle="collapse" href="#cats" role="button" aria-expanded="true"
                         aria-controls="men-cloth">
-                        الفئات
-                    </a>
-                    <div class="sub-manu collapse multi-collapse" id="cats">
-                        <div class="right-menu-categories">
+                        
+                    </a> -->
+
+                    <!-- <div class="sub-manu collapse multi-collapse" id="cats">
+                        <div class="right-menu-categories"> -->
                             @include('web.common.shopCategories')
                             @php shopCategories(); @endphp
-                        </div>
-                    </div>
+                        <!-- </div> -->
+                    <!-- </div> -->
                     @if($result['products']['success']==1)
                     @if(!empty($result['categories']))
                     <form enctype="multipart/form-data" name="filters" id="test" method="get">

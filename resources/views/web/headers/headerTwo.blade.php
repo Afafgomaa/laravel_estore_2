@@ -1,177 +1,401 @@
 <!-- //header fixed -->
-@include('web.headers.fixedHeader') 
+
 <!-- //header style Two -->
-<header id="headerTwo" class="header-area header-two header-desktop d-none d-lg-block d-xl-block">
-  <div class="header-mini bg-top-bar">
-    <div class="container">
-      <div class="row">
-        <div class="col-12 col-md-4">
-          
-            <div class="navbar-lang">
-                
-              @if(count($languages) > 1)
-              <div class="dropdown">
-                  <button class="btn dropdown-toggle" type="button" >
-                    {{-- <img src="{{asset('').session('language_image')}}" width="17px" /> --}}
-                    {{	session('language_name')}}
-                  </button>
-                  <div class="dropdown-menu" >
-                    @foreach($languages as $language)
-                    <a onclick="myFunction1({{$language->languages_id}})" class="dropdown-item" href="#">
-                      {{-- <img style="margin-left:10px; margin-right:10px;"src="{{asset('').$language->image_path}}" width="17px" /> --}}
-                      {{$language->name}}
-                    </a>
-                   
-                    @endforeach                   
-                  </div>
-              </div> 
-              @include('web.common.scripts.changeLanguage')
-              @endif
+<header>
+        <div class="wrapper">
+            <div class="inner-wrapper">
+                <div class="sub-nav">
+                    <!--backgoround yellow-->
+                    <div class="container-fluid">
+                        <div class="px-4">
+                            <div class="nav-container">
+                                <div class="f">
+                                    <div class="nav-links">
+                                        <ul>
+                                            <li>
+                                                <span class="lang">
+                                                    english
+                  
+                                                </span>
+                                            </li>
+                                            <li class="shipp">
+                                                <span class="country-flag">
+                                                    <img src="{{asset('images/egypt.png' )}}" alt="shipp" class="img-fluid icon">
+                                                </span>
 
-              @if(count($currencies) > 1)
-                <div class="dropdown">
-                  <button class="btn dropdown-toggle" type="button" >
-                    {{session('currency_code')}}
-                  </button>
-                  <div class="dropdown-menu">
-                    @foreach($currencies as $currency)
-                    <a onclick="myFunction2({{$currency->id}})" class="dropdown-item" href="#">
-                      <span>{{$currency->code}}</span>    
-                    </a>
-                    @endforeach
-                  </div>
+                                                <span class="shipping-c">الشحن الى </span>
+                                                <span class="shipping-country">مصر</span>
+                                                <span class="select-arrow">
+                                                    <img src="images/down-arrow.svg" class="img-fluid">
+                                                </span>
+
+                                            </li>
+                                            <div class="choose-country arrow p-3 text-right">
+                                                <div class="city">
+                                                    <input type="checkbox" name="country" id="emirates">
+                                                    <span class="flag px-2"><img src="images/emirates.png"
+                                                            class="img-fluid icon" alt="emirates"></span>
+                                                    <label class="country-name" for="emirates">الامارات العربيه
+                                                        المتحدة</label>
+                                                </div>
+                                                <div class="city">
+                                                    <input type="checkbox" name="country" id="saudi">
+                                                    <span class="flag px-2"><img src="images/saudi.png"
+                                                            class="img-fluid icon" alt="saudi"></span>
+                                                    <label class="country-name" for="saudi">المملكه العربيه
+                                                        السعوديه</label>
+                                                </div>
+                                                <div class="city">
+                                                    <input type="checkbox" name="country" id="egypt">
+                                                    <span class="flag px-2"><img src="images/egypt.png"
+                                                            class="img-fluid icon" alt="egypt"></span>
+                                                    <label class="country-name" for="egypt">مصر</label>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                    <div class="nav-links">
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    <i class="fas fa-exchange-alt"></i>
+                                                </span>
+                                                <span>
+                                                    توصيل سريع
+                                                </span>
+                                            </li>
+                                            <li class="pl-0">
+                                                <span>
+                                                    <i class="fas fa-percentage"></i>
+                                                </span>
+                                                <span class="ml-0">
+                                                    اقوى العروض
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="navSPart">
+                                <div class="row f-100">
+                                    <div class="col-1">
+                                        <div class="logo">
+                                            <a href="#"> <img src="images/noon_logo_black_arabic.svg" class="img-fluid"></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-8 col-7">
+                                        <div class="search-bar f">
+                                            <input type="text" placeholder="انت بتدور على اي؟">
+                                            <span class="search-icon">
+                                                <img src="images/search.svg" class="img-fluid small-icon"
+                                                    alt="search-icon">
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-3 col-4">
+                                        <div class="shoppingAndreg">
+                                            <ul class="f">
+                                                <li class="registration">
+                                                    <a href="#">
+                                                        <span>
+                                                            تسجيل الدخول او الاشتراك
+                                                        </span>
+                                                        <span class="select-arrow">
+                                                            <img src="images/down-arrow.svg" class="img-fluid"
+                                                                alt="arrow">
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li class="shopingCart">
+                                                    <a href="#">
+                                                        <Span>
+                                                            عربه التسوق
+                                                        </Span>
+                                                        <span>
+                                                            <img src="images/supermarket (1).svg" alt="cart"
+                                                                class="img-fluid icon">
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                @include('web.common.scripts.changeCurrency')
-              @endif
-              </div>
-        </div>
-        <div class="col-12 col-md-8">
-          <ul class="link-list">
-            <li class="">
-              <div class="link-item">             
-                <span><?php if(auth()->guard('customer')->check()){ ?>@lang('website.Welcome') {{auth()->guard('customer')->user()->first_name}}&nbsp;! <?php }?> </span>
-              </div>
-            </li>
-            <?php if(auth()->guard('customer')->check()){ ?>
-              <li class="link-item"> <a href="{{url('profile')}}" >@lang('website.Profile')</a> </li>
-              <li class="link-item"> <a href="{{url('wishlist')}}" >@lang('website.Wishlist') <span class="total_wishlist"> ({{$result['commonContent']['total_wishlist']}})</span></a> </li>
-              <li class="link-item"> <a href="{{url('compare')}}" >@lang('website.Compare')&nbsp;(<span id="compare">{{$count}}</span>)</a> </li>
-              <li class="link-item"> <a href="{{url('orders')}}" >@lang('website.Orders')</a> </li>
-              <li class="link-item"> <a href="{{url('shipping-address')}}" >@lang('website.Shipping Address')</a> </li>
-              <li class="link-item"> <a href="{{url('logout')}}">@lang('website.Logout')</a> </li>
-              <?php }else{ ?>
-                <li class="link-item"> <a href="{{ URL::to('/login')}}"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;@lang('website.Login/Register')</a> </li>
-  
-              <?php } ?>
-          </ul> 
-            
-        </div>
-      </div>
-    </div> 
-  </div>
+                <div class="main-nav">
+                    <!--background white-->
+                    <div class="container-fluid">
+                        <div class="px-4">
+                            <div class="nav-container">
+                                <div class="row ">
+                                    <div class="col-xl-2 col-3 px-0">
+                                        <div class="allCats">
+                                            <div class="f">
+                                                <span>
+                                                    كل الفئات
+                                                </span>
+                                                <span class="select-arrow">
+                                                    <img src="images/down-arrow.svg" class="img-fluid" alt="arrow">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-7 col-8">
+                                        <div class="catsLinks">
+                                            <ul class="f mb-0 ">
+                                            @foreach($result['commonContent']["categories"] as $menus)
+                                            <li data-category="{{$menus->id}}"><a href="" >{{$menus->name}}</a>
+                                               
+                    
+                <div class="sup-nav-pop mx-3 linksC"   id="categoryDeatiles{{$menus->id}}">
+                    <div class="wrapper">
+                        <div class="container-fluid">
+                            <div class="inner-data px-3">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <div class="sup-cats">
+                                        <p class="head">فئات المنتجات</p>
+                                    <!-- كل الصب  الكاتجوري-->
+                                            <ul>
+                                            @if(count($menus->sub_categories))
+                                            @foreach($menus->sub_categories as $sub)
+                                               <li><a href="#">{{$sub->sub_name}}</a></li> 
+                                                
+                                            @endforeach
+                                            @endif
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="head">
+                                            <span>افضل الماركات</span>
+                                        </div>
+                                        <div class="brands-container">
+                                            <div class="row">
+                                            <?php 
+                                            // all brands كل الفئات
+                                            echo getSixBrandBycategoryId($menus->id) ?>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="brand-box-big">
+                                            <img src="{{asset($menus->path)}}" alt="top" class="img-fluid">
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="brand-box-big">
+                                            <img src="{{asset('').$menus->path}}" alt="top" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </li>
+                <div class="fixedPopUp">
 
-  <div class="header-maxi bg-header-bar">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-12 col-sm-12 col-lg-3">
-          <a href="{{ URL::to('/')}}" class="logo" data-toggle="tooltip" data-placement="bottom" title="@lang('website.logo')">
-            @if($result['commonContent']['setting'][77]->value=='name')
-            <?=stripslashes($result['commonContent']['setting'][78]->value)?>
-            @endif
-        
-            @if($result['commonContent']['setting'][77]->value=='logo')
-            <img class="img-fluid" src="{{asset('').$result['commonContent']['setting'][15]->value}}" alt="<?=stripslashes($result['commonContent']['setting'][79]->value)?>">
-            @endif
-          </a>
-        </div>
-        <div class="col-12 col-sm-7 col-md-8 col-lg-6">      
-          <form class="form-inline" action="{{ URL::to('/shop')}}" method="get">   
-            <div class="search-field-module">   
-                <input type="hidden" name="category" class="category-value" value="">
-                @include('web.common.HeaderCategories')
-              <button class="btn btn-secondary swipe-to-top dropdown-toggle header-selection" type="button" id="headerOneCartButton"  
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
-                data-toggle="tooltip" data-placement="bottom" title="@lang("website.Choose Any Category")"> 
-                @lang("website.Choose Any Category")
-              </button> 
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="headerOneCartButton">   
-                  @php    productCategories(); @endphp                                                                 
-              </div>
-              <div class="search-field-wrap">
-                  <input  type="search" name="search" placeholder="@lang('website.Search entire store here')..." data-toggle="tooltip" data-placement="bottom" title="@lang('website.Search Products')" alue="{{ app('request')->input('search') }}">
-                  <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip" 
-                  data-placement="bottom" title="@lang('website.Search Products')">
-                  <i class="fa fa-search"></i></button>
-              </div>
+                </div>
+              
+                                            @endforeach
+                                            <li><a href="#">عروض</a></li> 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                <!--- كل الفئات -->
+
+                <div class="main-nav-pop">
+                    <div class="wrapper">
+                        <div class="px-2">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="pop-body">
+                                        <div class="row">
+                                            <div class="col-4 pl-0">
+                                                <div class="pop-body-part-one text-right">
+                                                    <div class="part-one-header f">
+                                                        <span>كل الفئات</span>
+                                                        <span class="select-arrow">
+                                                            <img src="images/down-arrow.svg" class="img-fluid"
+                                                                alt="arrow">
+                                                        </span>
+                                                    </div>
+                                                    <div class="part-one-content">
+                                                        <ul>
+                                                        @foreach($result['commonContent']["categories"] as $menusright)
+                                                        <li data-category="{{$menusright->id}}"><a href="" >{{$menusright->name}}</a>
+                                                    
+                                                    
+                                                    
+                                                    <div class="hideElement" id="{{$menusright->id}}">
+                                                      <!-- need data details to be her -->
+                                                  afaf{{$menusright->name}}
+
+                                                    </div>
+                                                    
+                                                    
+                                                    
+                                                    </li>
+                                                        @endforeach
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-8">
+                                                <div class="pop-body-part-two">
+                                                    <div class="pop-header">
+                                                        <a href="#" class="f">
+                                                            <span class="cat-name">
+                                                                الالكترونيات
+                                                            </span>
+                                                            <span>
+                                                                <span>
+                                                                    عرض جميع الفئات
+                                                                </span>
+                                                            <span class="cat-name">
+                                                                    الالكترونيات
+                                                                </span>
+                                                            <span class="select-arrow">
+                                                                    <img src="images/right.svg" alt="arrow"
+                                                                        class="img-fluid">
+                                                                </span>
+                                                            </span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="pop-inner">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <div class="inner-content-one text-right">
+                                                                    <ul>
+                                                                        <li>المشهورة اكتر</li>
+                                                                        <li><a href="#">تليقزيونات</a></li>
+                                                                        <li><a href="#">اجهزة الكومبيوتر المحموله</a>
+                                                                        </li>
+                                                                        <li><a href="#">كاميرات</a></li>
+                                                                        <li><a href="#">اجهزة الصوت</a></li>
+                                                                        <li><a href="#">مستلزمات الكومبيوتر</a></li>
+                                                                        <li><a href="#">العاب الفيديو</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <div class="inner-content-two text-right">
+                                                                    <ul>
+                                                                        <li>افضل الماركات</li>
+                                                                        <li><a href="#">سامسونج</a></li>
+                                                                        <li><a href="#">ال جى</a></li>
+                                                                        <li><a href="#">جاك</a></li>
+                                                                        <li><a href="#">لينوفو</a></li>
+                                                                        <li><a href="#">اتش بى</a></li>
+                                                                        <li><a href="#">ديل</a></li>
+                                                                        <li><a href="#">ابل</a></li>
+                                                                        <li><a href="#">توشيبا</a></li>
+                                                                        <li><a href="#">سونى</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+             
             </div>
-          </form>
         </div>
-        <div class="col-12 col-sm-5 col-md-4 col-lg-3">
-          <ul class="pro-header-right-options">
-            <li>
-              <a href="{{ URL::to('/wishlist')}}" class="btn" data-toggle="tooltip" data-placement="bottom" title="@lang('website.Wishlist')">
-                <i class="far fa-heart"></i>
-                <span class="badge badge-secondary total_wishlist">{{$result['commonContent']['total_wishlist']}}</span>
-              </a>
-            </li>
-            <li class="dropdown head-cart-content">
-              @include('web.headers.cartButtons.cartButton2')              
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div> 
-  <div class="header-navbar bg-menu-bar">
-    <div class="container">
-      <nav id="navbar_header_1" class="navbar navbar-expand-lg  bg-nav-bar">
-        <a class="navbar-brand home-icon btn-secondary swipe-to-top" href="{{url('/')}}" ><i class="fa fa-home"></i></a>
-        
-        <div class="navbar-collapse" >
-          <ul class="navbar-nav">
-          <li data-category="all">كل الفئات</li>
-          
-            @foreach($result['commonContent']["categories"] as $menus)
-                <li data-category="{{$menus->id}}">{{$menus->name}}</li>
-                <div id="categoryDeatiles{{$menus->id}}" class="linksC" style="display:none">
-                   @if(count($menus->sub_categories))
-                   <ul>
-                   <li>فئات المنتجات</li>
-                   <p>افضل الماركات</p>
-                    @foreach($menus->sub_categories as $sub)
-                      <li>{{$sub->sub_name}}</li>
-                   
-                    
-
-                    <li><a href="/shop?{{$sub->brand}}"><img src="{{$sub->brandImage}}"></a></li>
-                    
-                     
-                    @endforeach
-
-                   
-               
-                   </ul>
-                   <img src="{{asset('').$menus->path}}">
-                   <img src="{{asset('').$menus->path}}">
-                   
-                @endif
-                </div>
-              @endforeach
-          </ul>
-        </div>
-      </nav>
-      
-    </div>
-  </div>
-</header>
+    </header>
 
 
 <script type="text/javascript">
-$('.linksC').hide()
+ function hoverShow(hover, showedElement) {
+        $(hover).hover(
+            function() {
+                $(showedElement).show();
+                $(".fixedPopUp").show();
+                $(".sup-nav-pop").hide()
+            },
+            function() {
+                $(showedElement).hide();
+                $(".fixedPopUp").hide()
+            }
+        );
 
-$('.navbar-nav li').hover(function(){
+        $(showedElement).mouseenter(function() {
+            $(showedElement).show();
+        });
+        $(showedElement).mouseleave(function() {
+            $(showedElement).hide();
+        });
+    }
+
+    hoverShow(".allCats", ".pop-body");
+    $(".part-one-content ul li a").mouseenter(function() {
+        var theText = $(this).text();
+        $(".cat-name").text(theText);
+    });
+// $(".catsLinks li:not(:last-child) a,.sup-nav-pop").mouseenter(function() {
+   
+//         // $(".sup-nav-pop,.fixedPopUp").show()
+//         var elemId = $(this).data('category');
+//         $('#categoryDeatiles'+elemId).show()
+//     })
+//     $(".sup-nav-pop").mouseleave(function() {
+//         var elemId = $(this).data('category');
+//         $('#categoryDeatiles'+elemId ).hide()
+//         })
+$('.linksC').hide()
+$('.hideElement').hide();
+$('.catsLinks li').hover(function(){
+    
   var elemId = $(this).data('category');
  $('#categoryDeatiles'+elemId).show().slideDown();
+
+},function(){
+  var elemId = $(this).data('category');
+ $('#categoryDeatiles'+elemId).css('display','none');
+
+})
+
+
+
+$('.part-one-content li').hover(function(){
+    var elemId = $(this).data('category');
+ $('#'+elemId).show().slideDown();
+},function(){
+  var elemId = $(this).data('category');
+ $('#'+elemId).css('display','none');
+
+})
+
+
+
+
+
 
 
 // $.post({
@@ -186,10 +410,4 @@ $('.navbar-nav li').hover(function(){
 //         }
 
 // })
-
-},function(){
-  var elemId = $(this).data('category');
- $('#categoryDeatiles'+elemId).css('display','none');
-
-})
 </script>

@@ -79,7 +79,8 @@ class Manufacturers extends Model
               'manufacturer_image'   =>   $request->image_id,
               'created_at'			=>   $date_added,
               'manufacturer_name' 	=>   $request->name,
-              'manufacturers_slug'	=>	 $slug
+              'manufacturers_slug'	=>	 $slug,
+              'category_id'        => $request->man_cat
           ]);
 
           DB::table('manufacturers_info')->insert([
@@ -213,7 +214,8 @@ class Manufacturers extends Model
                     'manufacturer_image'   =>   $uploadImage,
                     'updated_at'			=>   $last_modified,
                     'manufacturer_name' 	=>   $request->name,
-                    'manufacturers_slug'	=>	 $slug
+                    'manufacturers_slug'	=>	 $slug,
+                    'category_id'        => $request->man_cat
                 ]);
                 DB::table('manufacturers_info')->where('manufacturers_id', $request->id)->update([
                     'manufacturers_url'     =>     $request->manufacturers_url,
