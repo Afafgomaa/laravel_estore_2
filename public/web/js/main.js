@@ -59,11 +59,11 @@ $(document).ready(function() {
     $(".catsLinks li:not(:last-child) a,.sup-nav-pop").mouseenter(function() {
         // $(".sup-nav-pop,.fixedPopUp").show()
         var elemId = $(this).data('category');
-        $('#categoryDeatiles'+elemId,'fixedPopUp').show()
+        $('#categoryDeatiles' + elemId, '.fixedPopUp').show()
     })
     $(".sup-nav-pop").mouseleave(function() {
-        var elemId = $(this).data('category');
-        $('#categoryDeatiles'+elemId ,'fixedPopUp').hide()
+            var elemId = $(this).data('category');
+            $('#categoryDeatiles' + elemId, '.fixedPopUp').hide()
         })
         // var catsLinks= $(".catsLinks a").
         // hoverShow(".catsLinks li:not(:last-child) a,.sup-nav-pop", ".sup-nav-pop");
