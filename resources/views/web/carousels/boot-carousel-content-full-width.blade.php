@@ -1,6 +1,6 @@
 <section class="carousel-content">
   <div class="container">
-    
+
     <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       @foreach($result['slides'] as $key=>$slides_data)
@@ -26,10 +26,10 @@
 
       @endforeach
     </div>
-    <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">    
+    <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev">
       <span class="sr-only">@lang('website.Previous')</span>
     </a>
-    <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">   
+    <a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next">
       <span class="sr-only">@lang('website.Next')</span>
     </a>
   </div>
