@@ -228,10 +228,10 @@ header {
 /* the main nav popups  */
 
 .pop-body {
-    position: relative;
-    z-index: 5;
+    /* position: relative; */
+    /* z-index: 5;
     top: -9%;
-    right: 4%;
+    right: 4%; */
     background-color: #fff;
     -webkit-box-shadow: 0px 0px 10px -3px rgba(238, 238, 238, 1);
     -moz-box-shadow: 0px 0px 10px -3px rgba(238, 238, 238, 1);
@@ -250,6 +250,7 @@ header {
     /* opacity: .4; */
     padding: 10px 24px;
     background-color: #eee;
+    width: 30%;
 }
 
 .main-nav-pop a {
@@ -258,14 +259,13 @@ header {
     text-decoration: none;
 }
 
-.part-one-content ul li {
-    padding: 8px 24px 8px 0;
-    background-color: #eee;
-}
+.part-one-content ul li {}
 
 .part-one-content ul li a {
     display: inline-block;
-    width: 100%;
+    width: 30%;
+    /* background-color: #eee; */
+    padding: 8px 24px 8px 0;
 }
 
 .part-one-content ul li:hover {
@@ -311,7 +311,7 @@ header {
 
 .pop-body-part-one.text-right {
     height: 100%;
-    background-color: #eee;
+    /* background-color: #eee; */
     padding-bottom: 48px;
 }
 
@@ -407,4 +407,18 @@ header {
 .sup-cats li {
     background-color: transparent;
     box-shadow: none;
+}
+
+.pop-body-part-two {
+    position: absolute;
+    background-color: #fff;
+    left: 0;
+    right: 47%;
+    top: -78px;
+    z-index: 10;
+    width: 100%;
+}
+
+.main-nav-pop {
+    background-color: #fff;
 }

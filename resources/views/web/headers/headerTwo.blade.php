@@ -233,7 +233,7 @@
                             <div class="col-7">
                                 <div class="pop-body">
                                     <div class="row">
-                                        <div class="col-4 pl-0">
+                                        <div class="col-12 pl-0">
                                             <div class="pop-body-part-one text-right">
                                                 <div class="part-one-header f">
                                                     <span>كل الفئات</span>
@@ -251,7 +251,82 @@
 
                                                             <div class="hideElement" id="{{$menusright->id}}">
                                                                 <!-- need data details to be her -->
-                                                                afaf{{$menusright->name}}
+                                                                <div class="col-8">
+                                                                    <div class="pop-body-part-two">
+                                                                        <div class="pop-header">
+                                                                            <a href="#" class="f">
+                                                                                <span class="cat-name">
+                                                                                    الالكترونيات
+                                                                                </span>
+                                                                                <span>
+                                                                                    <span>
+                                                                                        عرض جميع الفئات
+                                                                                    </span>
+                                                                                    <span class="cat-name">
+                                                                                        الالكترونيات
+                                                                                    </span>
+                                                                                    <span class="select-arrow">
+                                                                                        <img src="images/right.svg"
+                                                                                            alt="arrow"
+                                                                                            class="img-fluid">
+                                                                                    </span>
+                                                                                </span>
+                                                                            </a>
+                                                                        </div>
+                                                                        <div class="pop-inner">
+                                                                            <div class="row">
+                                                                                <div class="col-6">
+                                                                                    <div
+                                                                                        class="inner-content-one text-right">
+                                                                                        <ul>
+                                                                                            <li>المشهورة اكتر</li>
+                                                                                            <li><a
+                                                                                                    href="#">تليقزيونات</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">اجهزة
+                                                                                                    الكومبيوتر
+                                                                                                    المحموله</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">كاميرات</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">اجهزة
+                                                                                                    الصوت</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">مستلزمات
+                                                                                                    الكومبيوتر</a></li>
+                                                                                            <li><a href="#">العاب
+                                                                                                    الفيديو</a></li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    <div
+                                                                                        class="inner-content-two text-right">
+                                                                                        <ul>
+                                                                                            <li>افضل الماركات</li>
+                                                                                            <li><a href="#">سامسونج</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">ال جى</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">جاك</a></li>
+                                                                                            <li><a href="#">لينوفو</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">اتش بى</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">ديل</a></li>
+                                                                                            <li><a href="#">ابل</a></li>
+                                                                                            <li><a href="#">توشيبا</a>
+                                                                                            </li>
+                                                                                            <li><a href="#">سونى</a>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- afaf{{$menusright->name}} -->
 
                                                             </div>
 
@@ -264,61 +339,7 @@
                                             </div>
                                         </div>
                                         <div class="col-8">
-                                            <div class="pop-body-part-two">
-                                                <div class="pop-header">
-                                                    <a href="#" class="f">
-                                                        <span class="cat-name">
-                                                            الالكترونيات
-                                                        </span>
-                                                        <span>
-                                                            <span>
-                                                                عرض جميع الفئات
-                                                            </span>
-                                                            <span class="cat-name">
-                                                                الالكترونيات
-                                                            </span>
-                                                            <span class="select-arrow">
-                                                                <img src="images/right.svg" alt="arrow"
-                                                                    class="img-fluid">
-                                                            </span>
-                                                        </span>
-                                                    </a>
-                                                </div>
-                                                <div class="pop-inner">
-                                                    <div class="row">
-                                                        <div class="col-6">
-                                                            <div class="inner-content-one text-right">
-                                                                <ul>
-                                                                    <li>المشهورة اكتر</li>
-                                                                    <li><a href="#">تليقزيونات</a></li>
-                                                                    <li><a href="#">اجهزة الكومبيوتر المحموله</a>
-                                                                    </li>
-                                                                    <li><a href="#">كاميرات</a></li>
-                                                                    <li><a href="#">اجهزة الصوت</a></li>
-                                                                    <li><a href="#">مستلزمات الكومبيوتر</a></li>
-                                                                    <li><a href="#">العاب الفيديو</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <div class="inner-content-two text-right">
-                                                                <ul>
-                                                                    <li>افضل الماركات</li>
-                                                                    <li><a href="#">سامسونج</a></li>
-                                                                    <li><a href="#">ال جى</a></li>
-                                                                    <li><a href="#">جاك</a></li>
-                                                                    <li><a href="#">لينوفو</a></li>
-                                                                    <li><a href="#">اتش بى</a></li>
-                                                                    <li><a href="#">ديل</a></li>
-                                                                    <li><a href="#">ابل</a></li>
-                                                                    <li><a href="#">توشيبا</a></li>
-                                                                    <li><a href="#">سونى</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
