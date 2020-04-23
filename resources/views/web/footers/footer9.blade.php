@@ -32,7 +32,7 @@
               <div class="col-12 col-md-6 col-lg-3">
                 <div class="single-footer single-footer-left">
                   <h5>@lang('website.Our Services')</h5>
-                  
+
                   <ul class="links-list pl-0 mb-0">
                     <li> <a href="{{ URL::to('/')}}"><i class="fa fa-angle-right"></i>Home</a> </li>
                   <li> <a href="{{ URL::to('/shop')}}"><i class="fa fa-angle-right"></i>Shop</a> </li>
@@ -44,7 +44,7 @@
               </div>
               <div class="col-12 col-md-6 col-lg-4">
                 <h5>@lang('website.Our Services')</h5>
-                
+
                 <ul class="links-list pl-0 mb-0">
                   @if(count($result['commonContent']['pages']))
                       @foreach($result['commonContent']['pages'] as $page)
@@ -56,7 +56,7 @@
               </div>
               <div class="col-12 col-lg-5">
                   <h5>@lang('Contact Us')</h5>
-                  
+
                   <ul class="contact-list  pl-0 mb-0">
                     <li> <i class="fas fa-map-marker"></i><span>{{$result['commonContent']['setting'][4]->value}} {{$result['commonContent']['setting'][5]->value}} {{$result['commonContent']['setting'][6]->value}}, {{$result['commonContent']['setting'][7]->value}} {{$result['commonContent']['setting'][8]->value}}</span> </li>
                     <li> <i class="fas fa-phone"></i><span>({{$result['commonContent']['setting'][11]->value}})</span> </li>
@@ -76,9 +76,9 @@
             <div class="container">
               <div class="social-div">
                 <div class="row align-items-center justify-content-between">
-                  
+
                   <div class="col-12 col-md-4">
-                        
+
                         <div class="footer-info">
                           © @lang('website.Copy Rights').  <a href="{{url('/page?name=refund-policy')}}">@lang('website.Privacy')</a>&nbsp;&bull;&nbsp;<a href="{{url('/page?name=term-services')}}">@lang('website.Terms')</a>
                         </div>
@@ -117,7 +117,8 @@
                   </div>
                 </div>
             </div>
-            </div>  
+            </div>
         </div>
     </div>
 </footer>
+
