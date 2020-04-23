@@ -162,7 +162,7 @@
                                                                             <ul>
                                                                                 @if(count($menus->sub_categories))
                                                                                 @foreach($menus->sub_categories as $sub)
-                                                                                <li><a href="#">{{$sub->sub_name}}</a>
+                                                                                <li><a href="">{{$sub->sub_name}}</a>
                                                                                 </li>
 
                                                                                 @endforeach
@@ -176,7 +176,7 @@
                                                                         </div>
                                                                         <div class="brands-container">
                                                                             <div class="row">
-                                                                                <?php 
+                                                                                <?php
                                             // all brands كل الفئات
                                             echo getSixBrandBycategoryId($menus->id) ?>
 
@@ -247,8 +247,6 @@
                                                         <li data-category="{{$menusright->id}}"><a
                                                                 href="">{{$menusright->name}}</a>
 
-
-
                                                             <div class="hideElement" id="{{$menusright->id}}">
                                                                 <!-- need data details to be her -->
                                                                 <div class="col-8">
@@ -276,49 +274,29 @@
                                                                         <div class="pop-inner">
                                                                             <div class="row">
                                                                                 <div class="col-6">
-                                                                                    <div
-                                                                                        class="inner-content-one text-right">
+                                                                                    <div class="inner-content-one text-right">
+                                                                                              <p>المشهورة اكتر</p>
                                                                                         <ul>
-                                                                                            <li>المشهورة اكتر</li>
-                                                                                            <li><a
-                                                                                                    href="#">تليقزيونات</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">اجهزة
-                                                                                                    الكومبيوتر
-                                                                                                    المحموله</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">كاميرات</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">اجهزة
-                                                                                                    الصوت</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">مستلزمات
-                                                                                                    الكومبيوتر</a></li>
-                                                                                            <li><a href="#">العاب
-                                                                                                    الفيديو</a></li>
+                                                                                            @if(count($menusright->sub_categories))
+                                                                                                @foreach($menusright->sub_categories as $subb)
+                                                                                                    <li><a href="/{{$subb->sub_name}}">{{$subb->sub_name}}</a>
+                                                                                                    </li>
+
+                                                                                                @endforeach
+                                                                                            @endif
+
+
                                                                                         </ul>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-6">
                                                                                     <div
                                                                                         class="inner-content-two text-right">
+                                                                                        <p>افضل الماركات</p>
                                                                                         <ul>
-                                                                                            <li>افضل الماركات</li>
-                                                                                            <li><a href="#">سامسونج</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">ال جى</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">جاك</a></li>
-                                                                                            <li><a href="#">لينوفو</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">اتش بى</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">ديل</a></li>
-                                                                                            <li><a href="#">ابل</a></li>
-                                                                                            <li><a href="#">توشيبا</a>
-                                                                                            </li>
-                                                                                            <li><a href="#">سونى</a>
-                                                                                            </li>
+
+                                                                                         <?php echo   getbrandsBycatgoryId($menusright->id)?>
+
                                                                                         </ul>
                                                                                     </div>
                                                                                 </div>
@@ -326,7 +304,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <!-- afaf{{$menusright->name}} -->
+
 
                                                             </div>
 
