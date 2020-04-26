@@ -536,6 +536,54 @@ class IndexController extends Controller
 
     }
 
+    public function ajaxData(Request $request)
+    {
+     $catgorys =  getsubcatgorynameByid($request->catgory_id);
+      $brands =   getbrandsBycatgoryId($request->catgory_id);
+        echo "<div class='pop-body-part-two'>
+        <div class='pop-header'>
+            <a href='#' class='f'>
+                <span class='cat-name'>
+                    الالكترونيات
+                </span>
+                <span>
+                    <span>
+                        عرض جميع الفئات
+                    </span>
+                <span class='cat-name'>
+                        الالكترونيات
+                    </span>
+                <span class='select-arrow'>
+                        <img src='images/right.svg' alt='arrow'
+                            class='img-fluid'>
+                    </span>
+                </span>
+            </a>
+        </div>
+        <div class='pop-inner'>
+            <div class='row'>
+                <div class='col-6'>
+                    <div class='inner-content-one text-right'>
+                        <ul>
+                            <li>المشهورة اكتر</li>
+
+                            $catgorys
+                        </ul>
+                    </div>
+                </div>
+                <div class='col-6'>
+                    <div class='inner-content-two text-right'>
+                        <ul>
+                            <li>افضل الماركات</li>
+                            $brands
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>";
+    }
+
 
 
 

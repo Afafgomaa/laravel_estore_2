@@ -124,6 +124,8 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 
 
 		// add some route for front
+
+		Route::post('/getcontent','IndexController@ajaxData');
 // Route for new catgory page
     Route::get('{catgoryname}','IndexController@catgory');
 

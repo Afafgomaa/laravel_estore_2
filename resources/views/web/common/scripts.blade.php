@@ -8,7 +8,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 <script src="{!! asset('web/js/jquery-3.5.0.min.js') !!}"></script>
   <script src="{!! asset('web/js/bootstrap.bundle.min.js') !!}"></script>
-  <!-- <script src="{!! asset('web/js/main.js') !!}"></script> -->
+  <script src="{!! asset('web/js/main.js') !!}"></script>
 @if(Request::path() == 'checkout')
 <script src="https://js.braintreegateway.com/js/braintree-2.32.1.min.js"></script>
 <script type="text/javascript">

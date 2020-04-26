@@ -142,5 +142,27 @@ function categories(int $number = NULL)
 }
 
 
+function getsubcatgorynameByid($catgoryId){
+    $result = '';
+
+    $categories = DB::table('categories')
+        ->select('categories_id as id')
+        ->where('parent_id',$catgoryId)
+        ->get();
+
+foreach($categories as $cat){
+    $subcat = DB::table('categories_description')
+    ->select('categories_name as name','categories_id')
+    ->where('categories_id',$cat->id)->first();
+    $result .= "<li><a href='$subcat->categories_id'> $subcat->name</a></li>" ;
+}
+
+    return $result ;
+    
+
+
+}
+
+
 
 
