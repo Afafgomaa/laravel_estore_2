@@ -66,6 +66,27 @@
                                             </div>
                                         </div>
                                         @endforeach
+                                          @foreach($result['sort'] as $key=>$sort)
+                                        
+                                          <div class="form-group">
+                                            <label for="name" class="col-sm-2 col-md-3 control-label">sort_order<span style="color:red;">*</span> </label>
+                                            <div class="col-sm-10 col-md-4">
+                                              
+                                                <input name="sort_order" class="form-control field-validate" type="number" value=<?php if($sort->parent_id==0){echo $sort->sort_order;}
+                                        else{echo $sort->sub_sort_order;}
+                                      ?>>
+                                                <span class="help-block" style="font-weight: normal;font-size: 11px;margin-bottom: 0;">
+                                                    </span>
+                                                <span class="help-block hidden">{{ trans('labels.textRequiredFieldMessage') }}</span>
+                                            </div>
+                                        </div>
+                                       
+                                        
+                                        @endforeach
+                                        
+                                        
+                                        
+                                         
                                         <div class="form-group">
                                             <label for="name" class="col-sm-2 col-md-3 control-label">{{ trans('labels.slug') }} </label>
                                             <div class="col-sm-10 col-md-4">

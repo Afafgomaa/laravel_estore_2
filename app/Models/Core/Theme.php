@@ -77,6 +77,7 @@ class Theme extends Model
     public function getSliders($carousal_id)
     {
 
+        
         $records = array();
         $languages = DB::table('languages')->get();
         foreach ($languages as $key => $value) {
@@ -90,6 +91,7 @@ class Theme extends Model
                 ->orderBy('sliders_images.sliders_id', 'ASC')
                 ->groupBy('sliders_images.sliders_id')
                 ->get();
+//            dd($sliders);
             $records[$key]['sliders'] = $sliders;
         }
         return $records;
