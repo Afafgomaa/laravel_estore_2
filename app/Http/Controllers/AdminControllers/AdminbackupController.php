@@ -29,6 +29,12 @@ class AdminController extends Controller
     }
 
 	public function dashboard(Request $request){
+	
+		$admin_id = auth()->user();
+		if($admin_id->role_id != 1){
+		return	$this->dashboardForSaller($request);
+		}
+		//dd($admin_id);
 		$title 			  = 	array('pageTitle' => Lang::get("labels.title_dashboard"));
 		$language_id      = 	'1';
 
@@ -44,10 +50,10 @@ class AdminController extends Controller
 			->get();
 
 
+
 		$index = 0;
 		$purchased_price = 0;
 		$sold_cost = 0;
-		
 		foreach($orders as $orders_data){
 
 			$orders_status_history = DB::table('orders_status_history')
@@ -61,15 +67,20 @@ class AdminController extends Controller
 			$orders[$index]->orders_status_id = $orders_status_history->orders_status_id;
 			$orders[$index]->orders_status = $orders_status_history->orders_status_name;
 
+
+
 			
 
-			$orders_products = DB::table('orders_products')
+				
+				$orders_products = DB::table('orders_products')
 				->select('final_price', DB::raw('SUM(final_price) as total_price') ,'products_id','products_quantity' )
 				->where('orders_id', '=' ,$orders_data->orders_id)
 				->groupBy('final_price')
 				->get();
 
 			
+
+
 			if(count($orders_products)>0 and !empty($orders_products[0]->total_price)){
 				$orders[$index]->total_price = $orders_products[0]->total_price;
 			}else{
@@ -87,14 +98,15 @@ class AdminController extends Controller
 						$single_product_purchase_price = 0;
 					}
 					$purchased_price += $single_product_purchase_price*$orders_product->products_quantity;
-	
-				}	
+					//$purchased_price += $purchased_price;
+
+				}
 			}
-			
+
 			$index++;
 
 		  }
-		  
+
 
   		//products profit
   		if($purchased_price==0){
@@ -102,11 +114,11 @@ class AdminController extends Controller
   		}else{
   			$profit = abs($purchased_price - $sold_cost);
 		}
-		
 
   		$result['profit'] = number_format($profit,2);
-  		$result['total_money'] = number_format($purchased_price,2);
-		
+		  $result['total_money'] = number_format($purchased_price,2);
+		  
+
   		$compeleted_orders = 0;
   		$pending_orders = 0;
   		foreach($orders as $orders_data){
@@ -119,24 +131,22 @@ class AdminController extends Controller
   			{
   				$pending_orders++;
   			}
-		  }
-		  
+  		}
 
 
   		$result['orders'] = $orders->chunk(10);
   		$result['pending_orders'] = $pending_orders;
   		$result['compeleted_orders'] = $compeleted_orders;
-		$result['total_orders'] = count($orders);
-		  
+  		$result['total_orders'] = count($orders);
 
   		$result['inprocess'] = count($orders)-$pending_orders-$compeleted_orders;
   		//add to cart orders
   		$cart = DB::table('customers_basket')->get();
 
   		$result['cart'] = count($cart);
-		  
+
   		//Rencently added products
-		$recentProducts = DB::table('products')
+		  $recentProducts = DB::table('products')
 			->LeftJoin('image_categories', function ($join) {
 				$join->on('image_categories.image_id', '=', 'products.products_image')
 					->where(function ($query) {
@@ -148,19 +158,25 @@ class AdminController extends Controller
 			->leftJoin('products_description','products_description.products_id','=','products.products_id')
 			->select('products.*', 'products_description.*', 'image_categories.path as products_image')
 			->where('products_description.language_id','=', $language_id)
-			->orderBy('products.products_id', 'DESC')
-			->paginate(8);
+  			->orderBy('products.products_id', 'DESC')
+  			->paginate(8);
 
   		$result['recentProducts'] = $recentProducts;
-		  
-  		//products
-  		$products = DB::table('products')
-  			->leftJoin('products_description','products_description.products_id','=','products.products_id')
-  			->where('products_description.language_id','=', $language_id)
-  			->orderBy('products.products_id', 'DESC')
-  			->get();
 
+  		//products
 			
+				$products = DB::table('products')
+	  			->leftJoin('products_description','products_description.products_id','=','products.products_id')
+	  			->where('products_description.language_id','=', $language_id)
+	  			->orderBy('products.products_id', 'DESC')
+	  			->get();
+			
+
+
+
+				// dd($products);
+
+
   		//low products & out of stock
   		$lowLimit = 0;
   		$outOfStock = 0;
@@ -168,8 +184,12 @@ class AdminController extends Controller
   		$products_ids = array();
   		$data = array();
   		foreach($products as $products_data){
+  			//$total_money += $products_data->products_price;
   			$currentStocks = DB::table('inventory')->where('products_id',$products_data->products_id)->get();
+  			//$total_money += DB::table('inventory')->where('products_id',$products_data->products_id)->sum('purchase_price');
+
   			if(count($currentStocks)>0){
+
   				if($products_data->products_type!=1){
   					$c_stock_in = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','in')->sum('stock');
   					$c_stock_out = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','out')->sum('stock');
@@ -188,20 +208,236 @@ class AdminController extends Controller
   				$outOfStock++;
   			}
   		}
-		  
+
   		$result['lowLimit'] = $lowLimit;
   		$result['outOfStock'] = $outOfStock;
   		$result['totalProducts'] = count($products);
-		
-      	$users = array();		  
-		 
-  		$result['customers'] = $users;//->chunk(21);
-  		$result['totalCustomers'] = count($users);
+
+
+      	$customers = $this->Customers->getter();
+
+  		$result['customers'] = $customers;//->chunk(21);
+  		$result['totalCustomers'] = count($customers);
   		$result['reportBase'] = $reportBase;
 
-		$result['commonContent'] = $this->Setting->commonContent();
+  		$currency = $this->Setting->getSettings();
+		$result['currency'] = $currency;
 
-		return view("admin.dashboard",$title)->with('result', $result);
+		//get dashboard view accessabilities
+		$role =  DB::table('manage_role')
+			->where('user_types_id',Auth()->user()->role_id)
+			->first();
+
+			$result['commonContent'] = $this->Setting->commonContent();
+  		return view("admin.dashboard",$title)->with('result', $result)->with('role', $role);
+	}
+
+	protected function dashboardForSaller(Request $request){
+		
+		$admin_id = auth()->user();
+		$title 			  = 	array('pageTitle' => Lang::get("labels.title_dashboard"));
+		$language_id      = 	'1';
+
+		$result 		  =		array();
+
+		$reportBase		  = 	$request->reportBase;
+	
+		$orders = new OrdersController($this->Setting);
+		$result['total_orders'] = $orders->display()['all_count'];
+
+		
+
+		
+
+		$products = DB::table('products')
+		->leftJoin('products_description','products_description.products_id','=','products.products_id')
+		->where('products_description.language_id', $language_id)
+		->where('products.admin_id', $admin_id->id)
+		->orderBy('products.products_id', 'DESC')
+		->get();
+  
+
+
+
+	  // dd($products);
+
+	  $result['total_money'] = 0;
+//low products & out of stock
+$lowLimit = 0;
+$outOfStock = 0;
+$total_money = '';
+$products_ids = array();
+$data = array();
+$index = 0;
+foreach($products as $products_data){
+	//$total_money += $products_data->products_price;
+	$currentStocks = DB::table('inventory')->where('products_id',$products_data->products_id)->get();
+	$total_money = DB::table('inventory')->where('products_id',$products_data->products_id)->select('purchase_price' ,'stock')->get()  ;
+	// $result['total_money']+= $total_money[$index]->purchase_price * $total_money[$index]->stock;
+	$result['total_money']+= 0;
+	if(count($currentStocks)>0){
+
+		if($products_data->products_type!=1){
+			$c_stock_in = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','in')->sum('stock');
+			$c_stock_out = DB::table('inventory')->where('products_id',$products_data->products_id)->where('stock_type','out')->sum('stock');
+
+			if(($c_stock_in-$c_stock_out)==0){
+				if(!in_array($products_data->products_id, $products_ids)){
+					$products_ids[] = $products_data->products_id;
+
+					array_push($data,$products_data);
+					$outOfStock++;
+				}
+			}
+		}
+
+	}else{
+		$outOfStock++;
+	}
+	$index++;
+}
+
+$result['lowLimit'] = $lowLimit;
+$result['outOfStock'] = $outOfStock;
+$result['totalProducts'] = count($products);
+
+
+
+  
+		$currency = $this->Setting->getSettings();
+		$result['currency'] = $currency;
+
+		$recentProducts = DB::table('products')
+		->LeftJoin('image_categories', function ($join) {
+			$join->on('image_categories.image_id', '=', 'products.products_image')
+				->where(function ($query) {
+					$query->where('image_categories.image_type', '=', 'THUMBNAIL')
+						->where('image_categories.image_type', '!=', 'THUMBNAIL')
+						->orWhere('image_categories.image_type', '=', 'ACTUAL');
+				});
+		})
+		->leftJoin('products_description','products_description.products_id','=','products.products_id')
+		->where('products.admin_id', $admin_id->id)
+		->select('products.*', 'products_description.*', 'image_categories.path as products_image')
+		->where('products_description.language_id','=', $language_id)
+		  ->orderBy('products.products_id', 'DESC')
+		  ->paginate(8);
+
+	  $result['recentProducts'] = $recentProducts;
+
+
+
+
+	  // test 
+	  $orders = DB::table('orders')
+	  ->LeftJoin('currencies', 'currencies.code', '=', 'orders.currency')
+	  ->where('customers_id','!=','')
+	  ->orderBy('date_purchased','DESC')
+	  ->get();
+
+	  $index = 0;
+	  $purchased_price = 0;
+	  $sold_cost = 0;
+	  foreach($orders as $orders_data){
+
+		  $orders_status_history = DB::table('orders_status_history')
+			  ->LeftJoin('orders_status', 'orders_status.orders_status_id', '=', 'orders_status_history.orders_status_id')
+			  ->LeftJoin('orders_status_description', 'orders_status_description.orders_status_id', '=', 'orders_status.orders_status_id')
+			  ->select('orders_status_description.orders_status_name', 'orders_status_description.orders_status_id')
+			  ->where('orders_id', '=', $orders_data->orders_id)
+			  ->where('orders_status_description.language_id', '=', $language_id)
+			  ->orderby('orders_status_history.date_added', 'DESC')->first();
+
+		  $orders[$index]->orders_status_id = $orders_status_history->orders_status_id;
+		  $orders[$index]->orders_status = $orders_status_history->orders_status_name;
+
+
+
+		  
+
+			  
+			  $orders_products = DB::table('orders_products')->where('admin_id',$admin_id->id)
+			  ->select('final_price', DB::raw('SUM(final_price) as total_price') ,'products_id','products_quantity' )
+			  ->where('orders_id', '=' ,$orders_data->orders_id)
+			  ->groupBy('final_price')
+			  ->get();
+
+
+
+		  if(count($orders_products)>0 and !empty($orders_products[0]->total_price)){
+			  $orders[$index]->total_price = $orders_products[0]->total_price;
+		  }else{
+			  $orders[$index]->total_price = 0;
+		  }
+
+		  if($orders_status_history->orders_status_id != 3 and $orders_status_history->orders_status_id != 4){
+			  foreach($orders_products as $orders_product){
+				  $sold_cost += $orders_product->total_price;
+				  $single_purchased_price = DB::table('inventory')->where('products_id',$orders_product->products_id)->sum('purchase_price');
+				  $single_stock = DB::table('inventory')->where('products_id',$orders_product->products_id)->where('stock_type','in')->sum('stock');
+				  if($single_stock>0){
+					  $single_product_purchase_price = $single_purchased_price/$single_stock;
+				  }else{
+					  $single_product_purchase_price = 0;
+				  }
+				  $purchased_price += $single_product_purchase_price*$orders_product->products_quantity;
+				  //$purchased_price += $purchased_price;
+
+			  }
+		  }
+
+		  $index++;
+
+		}
+	
+
+	  $compeleted_orders = 0;
+  		$pending_orders = 0;
+  		foreach($orders as $orders_data){
+
+  			if($orders_data->orders_status_id=='2')
+  			{
+  				$compeleted_orders++;
+  			}
+  			if($orders_data->orders_status_id=='1')
+  			{
+  				$pending_orders++;
+  			}
+  		}
+
+
+  		$result['orders'] = $orders->chunk(10);
+  		$result['pending_orders'] = $pending_orders;
+		$result['compeleted_orders'] = $compeleted_orders;
+////////////////////////////////
+		if($purchased_price==0){
+			$profit = 0;
+		}else{
+			$profit = abs($purchased_price - $sold_cost);
+	  }
+
+		$result['profit'] = number_format($profit,2);
+		$result['total_money'] = number_format($purchased_price,2);
+		  
+/////////////////////////////////
+		$result['inprocess'] = count($orders)-$pending_orders-$compeleted_orders;
+  		//add to cart orders
+		  $cart = DB::table('customers_basket')
+		  ->LeftJoin('products','products.products_id','customers_basket.products_id')
+		  ->where('products.admin_id', $admin_id->id)
+		  ->get();
+
+  		$result['cart'] = count($cart);
+		  //test
+
+
+   
+           $role =  DB::table('manage_role')
+			->where('user_types_id',Auth()->user()->role_id)
+			->first();
+			$result['commonContent'] = $this->Setting->commonContent();
+		return view("admin.dashboard",$title)->with('result', $result)->with('role', $role);
+		
 	}
 
 
@@ -653,12 +889,12 @@ class AdminController extends Controller
 
 	//deleteProduct
 	public function deleteadmintype(Request $request){
-
-		$user_types_id = $request->user_types_id;
-
-		DB::table('user_types')->where('user_types_id','=', $user_types_id)->delete();
-
-		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminTypeMessage")]);
+dd($request);
+//		$user_types_id = $request->user_types_id;
+//
+//		DB::table('user_types')->where('user_types_id','=', $user_types_id)->delete();
+//
+//		return redirect()->back()->withErrors([Lang::get("labels.DeleteAdminTypeMessage")]);
 
 	}
 

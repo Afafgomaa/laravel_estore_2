@@ -24,7 +24,8 @@ class ManufacturerController extends Controller
     public function display()
     {
         $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
-        $manufacturers = $this->manufacturers->paginator(20);        
+        $manufacturers = $this->manufacturers->paginator(20); 
+           
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.manufacturers.index")->with('manufacturers', $manufacturers)->with('result', $result);
     }
@@ -34,6 +35,7 @@ class ManufacturerController extends Controller
         $allimage = $this->images->getimages();
         $title = array('pageTitle' => Lang::get("labels.AddManufacturer"));
         $result['commonContent'] = $this->Setting->commonContent();
+        $result['categoryParent'] = \DB::table('categories')->where('parent_id','0')->get();
         return view("admin.manufacturers.add", $title)->with('allimage', $allimage)->with('result', $result);
     }
 

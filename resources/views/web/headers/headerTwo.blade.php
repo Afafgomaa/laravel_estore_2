@@ -1,197 +1,341 @@
-<!-- //header fixed -->
-@include('web.headers.fixedHeader')
-<!-- //header style Two -->
-<header id="headerTwo" class="header-area header-two header-desktop d-none d-lg-block d-xl-block">
-    <div class="header-mini bg-top-bar">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-md-4">
+<header>
+        <div class="wrapper">
+            <div class="inner-wrapper">
+                <div class="sub-nav">
+                    <!--backgoround yellow-->
+                    <div class="container-fluid">
+                        <div class="px-4">
+                            <div class="nav-container">
+                                <div class="f">
+                                    <div class="nav-links">
+                                        <ul>
+                                            <li>
+                                                <span class="lang">
+                                                    english
+                                                </span>
+                                            </li>
+                                            <li class="shipp">
+                                                <span class="country-flag">
+                                                    <img src="images/egypt.png" alt="shipp" class="img-fluid icon">
+                                                </span>
 
-                    <div class="navbar-lang">
+                                                <span class="shipping-c">الشحن الى </span>
+                                                <span class="shipping-country">مصر</span>
+                                                <span class="select-arrow">
+                                                    <img src="images/down-arrow.svg" class="img-fluid">
+                                                </span>
 
-                        @if(count($languages) > 1)
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle" type="button">
-                                {{-- <img src="{{asset('').session('language_image')}}" width="17px" /> --}}
-                                {{	session('language_name')}}
-                            </button>
-                            <div class="dropdown-menu">
-                                @foreach($languages as $language)
-                                <a onclick="myFunction1({{$language->languages_id}})" class="dropdown-item" href="#">
-                                    {{-- <img style="margin-left:10px; margin-right:10px;"src="{{asset('').$language->image_path}}"
-                                    width="17px" /> --}}
-                                    {{$language->name}}
-                                </a>
+                                            </li>
+                                            <div class="choose-country arrow p-3 text-right">
+                                                <div class="city">
+                                                    <input type="checkbox" name="country" id="emirates">
+                                                    <span class="flag px-2"><img src="images/emirates.png"
+                                                            class="img-fluid icon" alt="emirates"></span>
+                                                    <label class="country-name" for="emirates">الامارات العربيه
+                                                        المتحدة</label>
+                                                </div>
+                                                <div class="city">
+                                                    <input type="checkbox" name="country" id="saudi">
+                                                    <span class="flag px-2"><img src="images/saudi.png"
+                                                            class="img-fluid icon" alt="saudi"></span>
+                                                    <label class="country-name" for="saudi">المملكه العربيه
+                                                        السعوديه</label>
+                                                </div>
+                                                <div class="city">
+                                                    <input type="checkbox" name="country" id="egypt">
+                                                    <span class="flag px-2"><img src="images/egypt.png"
+                                                            class="img-fluid icon" alt="egypt"></span>
+                                                    <label class="country-name" for="egypt">مصر</label>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                    <div class="nav-links">
+                                        <ul>
+                                            <li>
+                                                <span>
+                                                    <i class="fas fa-exchange-alt"></i>
+                                                </span>
+                                                <span>
+                                                    توصيل سريع
+                                                </span>
+                                            </li>
+                                            <li class="pl-0">
+                                                <span>
+                                                    <i class="fas fa-percentage"></i>
+                                                </span>
+                                                <span class="ml-0">
+                                                    اقوى العروض
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="navSPart">
+                                <div class="row f-100">
+                                    <div class="col-1">
+                                        <div class="logo">
+                                        @if($result['commonContent']['setting'][77]->value=='logo')
+                                            <a href="#"> <img src="{{asset('').$result['commonContent']['setting'][15]->value}}" alt="<?=stripslashes($result['commonContent']['setting'][79]->value)?>" class="img-fluid"></a>
+                                        @endif
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-xl-8 col-7">
+                                  
+                                        <form class="search-bar f" action="{{ URL::to('/shop')}}" method="get">
+                                        <input type="hidden" name="category"  value="">
+                                            <input type="text" name="search" placeholder="انت بتدور على اي؟">
+                                                                                
+                                             <button  type="submit" style="
+    background: white;
+    border: none;
+">
+                                             <span class="search-icon">
+                                            <img src="images/search.svg" class="img-fluid small-icon" alt="search-icon">
+                                        </span>  
+                                                
+</button>
 
-                                @endforeach
+                                          
+                                       </form>
+                                      
+                                    </div>
+                                   
+                                    <div class="col-xl-3 col-4">
+                                        <div class="shoppingAndreg">
+                                            <ul class="f">
+                                            
+                                                <li class="registration">
+                                                     @if(auth()->guard('customer')->check())
+                                                        @lang('website.Welcome') {{auth()->guard('customer')->user()->first_name}}
+                                                        <span class="select-arrow">
+                                                                        <img src="images/down-arrow.svg" class="img-fluid"
+                                                                            alt="arrow">
+                                                                    </span>
+                                                     @else
+                                                        <a href="#">
+                                                                <span>
+                                                                        تسجيل الدخول او الاشتراك
+                                                                </span>
+                                                                    <span class="select-arrow">
+                                                                        <img src="images/down-arrow.svg" class="img-fluid"
+                                                                            alt="arrow">
+                                                                    </span>
+                                                                </a>
+                                                      @endif
+                                                </li>
+                                                <div class="reg p-3 text-right">
+                                                    <div class="p-3">
+
+                                                    @if(auth()->guard('customer')->check())
+                                                            <ul>
+                                                                        <li class="mb-2 px-5"> <a href="{{url('profile')}}" >@lang('website.Profile')</a> </li>
+                                                                        <li class="mb-2 px-5"> <a href="{{url('wishlist')}}" >@lang('website.Wishlist') <span class="total_wishlist"> ({{$result['commonContent']['total_wishlist']}})</span></a> </li>
+                                                                        <li class="mb-2 px-5"> <a href="{{url('compare')}}" >@lang('website.Compare')&nbsp;(<span id="compare">{{$count}}</span>)</a> </li>
+                                                                        <li class="mb-2 px-5"> <a href="{{url('orders')}}" >@lang('website.Orders')</a> </li>
+                                                                        <li class="mb-2 px-5"> <a href="{{url('shipping-address')}}" >@lang('website.Shipping Address')</a> </li>
+                                                                        <li class="mb-2 px-5"> <a href="{{url('logout')}}">@lang('website.Logout')</a> </li>
+                                                            </ul>
+
+
+                                                    @else
+                                                        <div class="noon-login text-center">
+                                                            <div class="mb-2">حبايب نون</div>
+                                                            <a class="btn btn-info px-5" href="/login">تسجيل دخول</a>
+                                                       
+                                                        </div>
+                                                        
+                                                        <hr>
+                                                        <div class="noon-reg text-center">
+                                                            <div class="mb-2">لسه معندكش حساب؟</div>
+                                                            <a href="/login">اشترك</a>
+                                                            <br>
+                                                            <a  href="/seller3333333/index.php"> تسجيل دخول كبائع</a>
+
+                                                        </div>
+
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <li class="shopingCart">
+                                                    <a href="/viewcart">
+                                                        <Span>
+                                                            عربه التسوق
+                                                        </Span>
+                                                        <?php $qunatity=0; ?>
+        @foreach($result['commonContent']['cart'] as $cart_data)
+          <?php $qunatity += $cart_data->customers_basket_quantity; ?>
+        @endforeach
+                                                        <span>
+                                                            <img src="images/supermarket (1).svg" alt="cart"
+                                                                class="img-fluid icon">@if($qunatity > 0)
+                                                                <div class="jsx-127861163 cartIconContainer"><i class="icon icon-cart-o cartIcon" style="color:"></i><div style="transition: opacity 300ms ease-in-out 0s; opacity: 1;">
+                                                                <div class="jsx-127861163 counter"> {{ $qunatity }}
+                                                                </div>
+                                                                </div></div>
+                                                                @endif
+                                                                
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        @include('web.common.scripts.changeLanguage')
-                        @endif
-
-                        @if(count($currencies) > 1)
-                        <div class="dropdown">
-                            <button class="btn dropdown-toggle" type="button">
-                                {{session('currency_code')}}
-                            </button>
-                            <div class="dropdown-menu">
-                                @foreach($currencies as $currency)
-                                <a onclick="myFunction2({{$currency->id}})" class="dropdown-item" href="#">
-                                    <span>{{$currency->code}}</span>
-                                </a>
-                                @endforeach
-                            </div>
-                        </div>
-                        @include('web.common.scripts.changeCurrency')
-                        @endif
                     </div>
                 </div>
-                <div class="col-12 col-md-8">
-                    <ul class="link-list">
-                        <li class="">
-                            <div class="link-item">
-                                <span><?php if(auth()->guard('customer')->check()){ ?>@lang('website.Welcome')
-                                    {{auth()->guard('customer')->user()->first_name}}&nbsp;! <?php }?> </span>
-                            </div>
-                        </li>
-                        <?php if(auth()->guard('customer')->check()){ ?>
-                        <li class="link-item"> <a href="{{url('profile')}}">@lang('website.Profile')</a> </li>
-                        <li class="link-item"> <a href="{{url('wishlist')}}">@lang('website.Wishlist') <span
-                                    class="total_wishlist"> ({{$result['commonContent']['total_wishlist']}})</span></a>
-                        </li>
-                        <li class="link-item"> <a href="{{url('compare')}}">@lang('website.Compare')&nbsp;(<span
-                                    id="compare">{{$count}}</span>)</a> </li>
-                        <li class="link-item"> <a href="{{url('orders')}}">@lang('website.Orders')</a> </li>
-                        <li class="link-item"> <a href="{{url('shipping-address')}}">@lang('website.Shipping
-                                Address')</a> </li>
-                        <li class="link-item"> <a href="{{url('logout')}}">@lang('website.Logout')</a> </li>
-                        <?php }else{ ?>
-                        <li class="link-item"> <a href="{{ URL::to('/login')}}"><i class="fa fa-lock"
-                                    aria-hidden="true"></i>&nbsp;@lang('website.Login/Register')</a> </li>
+                <div class="main-nav">
+                    <!--background white-->
+                    <div class="container-fluid">
+                        <div class="px-4">
+                            <div class="nav-container">
+                                <div class="row ">
+                                    <div class="col-xl-2 col-3 px-0">
+                                        <div class="allCats">
+                                            <div class="f">
+                                                <span>
+                                                    كل الفئات
+                                                </span>
+                                                <span class="select-arrow">
+                                                    <img src="images/down-arrow.svg" class="img-fluid" alt="arrow">
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-7 col-8">
+                                        <div class="catsLinks">
+                                            <ul class="f mb-0">
+                                            @foreach($result['commonContent']["categories"] as $menus)
 
-                        <?php } ?>
-                    </ul>
+                                                <li><a href="#">{{$menus->name}}</a>
+                                                    <div class="sup-nav-pop mx-3">
+                                                        <div class="wrapper">
+                                                            <div class="container-fluid">
+                                                                <div class="inner-data px-3">
+                                                                    <div class="row">
+                                                                        <div class="col-2">
+                                                                            <div class="sup-cats">
+                                                                            <p class="head">فئات المنتجات
+                                                                                    </p>
+                                                                                <ul>
+                                                                                    
+                                                                            
+                                                                                    @if(count($menus->sub_categories))
+                                                                                @foreach($menus->sub_categories as $sub)
+                                                                                <li><a href="">{{$sub->sub_name}}</a>
+                                                                                </li>
 
-                </div>
-            </div>
-        </div>
-    </div>
+                                                                                @endforeach
+                                                                                @endif
+                                                                                </ul>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <div class="head">
+                                                                                <span>افضل الماركات</span>
+                                                                            </div>
+                                                                            <div class="brands-container">
+                                                                                <div class="row">
+                                                                                <?php
+                                                                                    // all brands كل الفئات
+                                                                                    echo getSixBrandBycategoryId($menus->id) 
+                                                                                    ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <div class="brand-box-big"><!--images/ar-top-electronics_01.png -->
+                                                                                <img src="{{asset($menus->path)}}" alt="top" class="img-fluid">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-2">
+                                                                            <div class="brand-box-big"> <!--- images//ar-top-electronics_02.png -->
+                                                                                <img src="{{asset($menus->path)}}" alt="top" class="img-fluid">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
 
-    <div class="header-maxi bg-header-bar">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-12 col-sm-12 col-lg-3">
-                    <a href="{{ URL::to('/')}}" class="logo" data-toggle="tooltip" data-placement="bottom"
-                        title="@lang('website.logo')">
-                        @if($result['commonContent']['setting'][77]->value=='name')
-                        <?=stripslashes($result['commonContent']['setting'][78]->value)?>
-                        @endif
+                                            @endforeach
 
-                        @if($result['commonContent']['setting'][77]->value=='logo')
-                        <img class="img-fluid" src="{{asset('').$result['commonContent']['setting'][15]->value}}"
-                            alt="<?=stripslashes($result['commonContent']['setting'][79]->value)?>">
-                        @endif
-                    </a>
-                </div>
-                <div class="col-12 col-sm-7 col-md-8 col-lg-6">
-                    <form class="form-inline" action="{{ URL::to('/shop')}}" method="get">
-                        <div class="search-field-module">
-                            <input type="hidden" name="category" class="category-value" value="">
-                            @include('web.common.HeaderCategories')
-                            <button class="btn btn-secondary swipe-to-top dropdown-toggle header-selection"
-                                type="button" id="headerOneCartButton" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false" data-toggle="tooltip" data-placement="bottom" title="@lang("
-                                website.Choose Any Category")">
-                                @lang("website.Choose Any Category")
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="headerOneCartButton">
-                                @php productCategories(); @endphp
-                            </div>
-                            <div class="search-field-wrap">
-                                <input type="search" name="search"
-                                    placeholder="@lang('website.Search entire store here')..." data-toggle="tooltip"
-                                    data-placement="bottom" title="@lang('website.Search Products')"
-                                    alue="{{ app('request')->input('search') }}">
-                                <button class="btn btn-secondary swipe-to-top" data-toggle="tooltip"
-                                    data-placement="bottom" title="@lang('website.Search Products')">
-                                    <i class="fa fa-search"></i></button>
+                                               
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
-                <div class="col-12 col-sm-5 col-md-4 col-lg-3">
-                    <ul class="pro-header-right-options">
-                        <li>
-                            <a href="{{ URL::to('/wishlist')}}" class="btn" data-toggle="tooltip"
-                                data-placement="bottom" title="@lang('website.Wishlist')">
-                                <i class="far fa-heart"></i>
-                                <span
-                                    class="badge badge-secondary total_wishlist">{{$result['commonContent']['total_wishlist']}}</span>
-                            </a>
-                        </li>
-                        <li class="dropdown head-cart-content">
-                            @include('web.headers.cartButtons.cartButton2')
-                        </li>
-                    </ul>
+                <div class="main-nav-pop">
+                    <div class="wrapper">
+                        <div class="px-2">
+                            <div class="row">
+                                <div class="col-7">
+                                    <div class="pop-body">
+                                        <div class="row">
+                                            <div class="col-4 pl-0">
+                                                <div class="pop-body-part-one text-right">
+                                                    <div class="part-one-header f">
+                                                        <span>كل الفئات</span>
+                                                        <span class="select-arrow">
+                                                            <img src="images/down-arrow.svg" class="img-fluid"
+                                                                alt="arrow">
+                                                        </span>
+                                                    </div>
+                                                    <div class="part-one-content">
+                                                        <ul>
+                                                        @foreach($result['commonContent']["categories"] as $menuss)
+                                                            <li id="{{$menuss->id}}" class=""><a href="#">{{$menuss->name}}</a>
+
+                                                            </li>
+                                                            
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-8" id="dataPoup">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fixedPopUp">
+
                 </div>
             </div>
         </div>
-    </div>
-    <div class="header-navbar bg-menu-bar">
-        <div class="container">
-            <nav id="navbar_header_1" class="navbar navbar-expand-lg  bg-nav-bar">
-                <a class="navbar-brand home-icon btn-secondary swipe-to-top" href="{{url('/')}}"><i
-                        class="fa fa-home"></i></a>
+    </header>
 
-                <div class="navbar-collapse">
-                    <ul class="navbar-nav">
-                        @foreach($result['commonContent']["menus"] as $menus)
-                        <li class="nav-item dropdown">
-                            <a class="nav-link @if(property_exists(" childs",'')) dropdown-toggle @endif"
-                                @if($menus->type == 0)target="_blank"@endif @if($menus->type == 0)
-                                href="{{$menus->external_link}}" @elseif($menus->type == 1) href="{{url($menus->link)}}"
-                                @else href="#" @endif >
-                                {{$menus->name}}
-                            </a>
-                            @if(property_exists("childs",''))
-                            <div class="dropdown-menu">
-                                <?php
-                    $array = (array) $menus->childs;
-                    $key = "sub_sort_order";
-                        $sorter=array();
-                        $ret=array();
-                        reset($array);
-                        foreach ($array as $ii => $va) {
-                          $va = (array) $va;
+    <script type="text/javascript">
+    $('.part-one-content li').hover(function(){
+        $.post({
+            url:'/getcontent',
+            data:{'_token': '{{csrf_token()}}', 'catgory_id':$(this).attr('id') },
+            success:function(data){
+                $('#dataPoup').html(data);
+            },
+            error:function(data){
+                alert(data);
+            }
+        }) 
+        
+        
+        ;
+    })
 
-                            $sorter[$ii]=$va[$key];
-                        }
-                        asort($sorter);
-                        foreach ($sorter as $ii => $va) {
-                            $ret[$ii]=$array[$ii];
-                        }
-                        $array=$ret;
-                     ?>
-                                @foreach($array as $me)
-                                <a class="dropdown-item" @if($me->type == 0)target="_blank"@endif @if($me->type == 0)
-                                    href="{{$me->external_link}}" @elseif($me->type == 1) href="{{url($me->link)}}"
-                                    @else href="#" @endif >
-                                    {{$me->name}}
-                                </a>
-                                @endforeach
-                            </div>
-                            @endif
-                        </li>
-                        @endforeach
-                        <li class="nav-item ">
-                            <a class="nav-link">
-                                <span>@lang('website.hotline')</span>
-                                {{$result['commonContent']['setting'][11]->value}}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-</header>
+    </script>

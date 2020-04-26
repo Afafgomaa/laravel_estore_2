@@ -189,7 +189,7 @@ return [
         'Folklore\Image\ImageServiceProvider',
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
 
-       SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
+    //    SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
 
     //    SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class
 
@@ -248,7 +248,7 @@ return [
         'Madzipper' => Madnest\Madzipper\Madzipper::class,
         'PaytmWallet' => Anand\LaravelPaytmWallet\Facades\PaytmWallet::class,
 
-        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
+        // 'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
 
         // 'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class
 

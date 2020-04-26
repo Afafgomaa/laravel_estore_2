@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
-class OrdersController extends Controller
+class OrdersbackupController extends Controller
 {
     //
     public function __construct(Setting $setting)
@@ -21,9 +21,9 @@ class OrdersController extends Controller
     //add listingOrders
     public function display()
     {
-       
-  
-   
+
+
+
         $title = array('pageTitle' => Lang::get("labels.ListingOrders"));
         $language_id = '1';
 
@@ -59,7 +59,7 @@ class OrdersController extends Controller
         $ordersData['message'] = $message;
         $ordersData['errorMessage'] = $errorMessage;
         $ordersData['orders'] = $orders;
-        $ordersData['currency'] = $this->myVarsetting->getSetting(); 
+        $ordersData['currency'] = $this->myVarsetting->getSetting();
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.Orders.index", $title)->with('listingOrders', $ordersData)->with('result', $result);
     }

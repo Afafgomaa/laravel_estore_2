@@ -37,6 +37,7 @@ class CategoriesController extends Controller
   }
 
   public function add(Request $request){
+    
     $title = array('pageTitle' => Lang::get("labels.AddSubCategories"));
 
     $images = new Images;
@@ -95,7 +96,7 @@ class CategoriesController extends Controller
   }
 
   public function insert(Request $request){
-
+    
         $date_added	= date('y-m-d h:i:s');
         $result = array();
 
