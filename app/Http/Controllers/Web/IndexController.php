@@ -16,6 +16,7 @@ use Lang;
 use View;
 use DB;
 use Cookie;
+use Session;
 class IndexController extends Controller
 {
 
@@ -46,6 +47,7 @@ class IndexController extends Controller
         $result = array();
         $result['commonContent'] = $this->index->commonContent();
         $title = array('pageTitle' => Lang::get("website.Home"));
+       
 /********************************************************************/
 
 /*********************************************************************/
@@ -156,10 +158,128 @@ class IndexController extends Controller
         }
 
         $result['weeklySoldProducts'] = array('success' => '1', 'product_data' => $detail, 'message' => "Returned all products.", 'total_record' => count($detail));
-        
+
         return view("web.index", ['title' => $title, 'final_theme' => $final_theme])->with(['result' => $result]);
     }
 
+
+
+    public function catgory($catgoryname){
+        $result1 = array();
+
+        $categories = DB::table('categories')
+            ->LeftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
+            ->leftJoin('image_categories', 'categories.categories_image', '=', 'image_categories.image_id')
+            ->select('categories.categories_id as id',
+                'categories.categories_image as image',
+                'categories.categories_icon as icon',
+                'categories.sort_order as order',
+                'categories.categories_slug as slug',
+                'categories.parent_id',
+                'categories_description.categories_name as name',
+                'image_categories.path as path'
+            )
+            ->where('categories_description.language_id', '=', Session::get('language_id'))
+            ->where('categories.categories_slug', '=', $catgoryname)
+            ->get();
+
+
+        $index = 0;
+
+        foreach ($categories as $categories_data) {
+
+            //products_image
+            $default_images = DB::table('image_categories')
+                ->where('image_id', '=', $categories_data->image)
+                ->where('image_type', 'MEDIUM')
+                ->first();
+
+            if ($default_images) {
+                $categories_data->path = $default_images->path;
+            } else {
+                $default_images = DB::table('image_categories')
+                    ->where('image_id', '=', $categories_data->image)
+                    ->where('image_type', 'MEDIUM')
+                    ->first();
+
+                if ($default_images) {
+                    $categories_data->path = $default_images->path;
+                } else {
+                    $default_images = DB::table('image_categories')
+                        ->where('image_id', '=', $categories_data->image)
+                        ->where('image_type', 'ACTUAL')
+                        ->first();
+                    if ($default_images) {
+                        $categories_data->path = $default_images->path;
+                    } else {
+                        $categories_data->path = '';
+                    }
+                }
+
+            }
+
+            $categories_id = $categories_data->id;
+
+            $products = DB::table('categories')
+                ->LeftJoin('categories as sub_categories', 'sub_categories.parent_id', '=', 'categories.categories_id')
+                ->LeftJoin('products_to_categories', 'products_to_categories.categories_id', '=', 'sub_categories.categories_id')
+                ->LeftJoin('products', 'products.products_id', '=', 'products_to_categories.products_id')
+                ->select('categories.categories_id', DB::raw('COUNT(DISTINCT products.products_id) as total_products'))
+                ->where('categories.categories_id', '=', $categories_id)
+                ->get();
+
+            $categories_data->total_products = $products[0]->total_products;
+            array_push($result1, $categories_data);
+
+            $sub_categories = DB::table('categories')
+                ->LeftJoin('categories_description', 'categories_description.categories_id', '=', 'categories.categories_id')
+                ->select('categories.categories_id as sub_id',
+                    'categories.categories_image as sub_image',
+                    'categories.categories_icon as sub_icon',
+                    'categories.sort_order as sub_order',
+                    'categories.categories_slug as sub_slug',
+                    'categories.parent_id',
+                    'categories_description.categories_name as sub_name'
+                )
+                ->where('categories_description.language_id', '=', Session::get('language_id'))
+
+                ->where('parent_id', $categories_id)
+                ->get();
+
+            $data = array();
+            $index2 = 0;
+            foreach ($sub_categories as $sub_categories_data) {
+                $sub_categories_id = $sub_categories_data->sub_id;
+
+                $individual_products = DB::table('products_to_categories')
+                    ->LeftJoin('products', 'products.products_id', '=', 'products_to_categories.products_id')
+                    ->LeftJoin('manufacturers','manufacturers.manufacturers_id','products.manufacturers_id')
+                    ->select('products_to_categories.categories_id', DB::raw('COUNT(DISTINCT products.products_id) as total_products')
+                        , 'manufacturers.manufacturers_id as brandId','manufacturers.manufacturer_image as brandImage')
+                    ->where('products_to_categories.categories_id', '=', $sub_categories_id)
+                    ->get();
+                $sub_categories_data->total_products = $individual_products[0]->total_products;
+                $sub_categories_data->brand = $individual_products[0]->brandId;
+                $sub_categories_data->brandImage = $individual_products[0]->brandImage;
+                $data[$index2++] = $sub_categories_data;
+
+            }
+
+            $result1[$index++]->sub_categories = $data;
+
+        }
+
+        $title = array('pageTitle' => Lang::get("website.Home"));
+        $final_theme = $this->theme->theme();
+        /*********************************************************************/
+        /**                   GENERAL CONTENT TO DISPLAY                    **/
+        /*********************************************************************/
+        $result = array();
+        $result['commonContent'] = $this->index->commonContent();
+        $title = array('pageTitle' => Lang::get("website.Home"));
+
+        return view('web.category',['title' => $title, 'final_theme' => $final_theme])->with(['result' => $result,'resultsubcatgory' =>$result1[0],'categories'=> $categories[0] ]);;
+    }
     public function maintance()
     {
         return view('errors.maintance');
@@ -184,7 +304,7 @@ class IndexController extends Controller
 
     private function setHeader($header_id)
     {
-        
+
         $count = $this->order->countCompare();
         $languages = $this->languages->languages();
         $currencies = $this->currencies->getter();
@@ -266,7 +386,7 @@ class IndexController extends Controller
 
     private function setFooter($footer_id)
     {
-        
+
         if ($footer_id == 1) {
             $footer = (string) View::make('web.footers.footer1')->render();
         } elseif ($footer_id == 2) {
@@ -348,14 +468,14 @@ class IndexController extends Controller
     public function newsletter(Request $request)
     {
         if (!empty(auth()->guard('customer')->user()->id)) {
-            $customers_id = auth()->guard('customer')->user()->id;  
+            $customers_id = auth()->guard('customer')->user()->id;
             $existUser = DB::table('customers')
                           ->leftJoin('users','customers.customers_id','=','users.id')
                           ->where('customers.fb_id', '=', $customers_id)
                           ->first();
 
-                      
-            if($existUser){                
+
+            if($existUser){
                 DB::table('customers')->where('user_id','=',$customers_id)->update([
                     'customers_newsletter' => 1,
                 ]);
@@ -365,31 +485,31 @@ class IndexController extends Controller
                     'customers_newsletter' => 1,
                 ]);
             }
-                                            
+
         }
         session(['newsletter' => 1]);
-        
+
         return 'subscribed';
     }
 
 
     public function subscribeMail(Request $request){
         $settings = $this->index->commonContent();
-        if(!empty($settings['setting'][122]->value) and !empty($settings['setting'][122]->value)){        
+        if(!empty($settings['setting'][122]->value) and !empty($settings['setting'][122]->value)){
             $email = $request->email;
 
             $list_id = $settings['setting'][123]->value;
             $api_key = $settings['setting'][122]->value;
-            
+
             $data_center = substr($api_key,strpos($api_key,'-')+1);
-            
+
             $url = 'https://'. $data_center .'.api.mailchimp.com/3.0/lists/'. $list_id .'/members';
-            
+
             $json = json_encode([
                 'email_address' => $email,
                 'status'        => 'subscribed', //pass 'subscribed' or 'pending'
             ]);
-            
+
             $ch = curl_init($url);
             curl_setopt($ch, CURLOPT_USERPWD, 'user:' . $api_key);
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
@@ -401,7 +521,7 @@ class IndexController extends Controller
             $result = curl_exec($ch);
             $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
-            
+
             if($status_code==200){
                 //subscribed
                 print '1';
@@ -413,11 +533,59 @@ class IndexController extends Controller
         }else{
             print '0';
         }
-        
+
+    }
+
+    public function ajaxData(Request $request)
+    {
+     $catgorys =  getsubcatgorynameByid($request->catgory_id);
+      $brands =   getbrandsBycatgoryId($request->catgory_id);
+        echo "<div class='pop-body-part-two'>
+        <div class='pop-header'>
+            <a href='#' class='f'>
+                <span class='cat-name'>
+                    الالكترونيات
+                </span>
+                <span>
+                    <span>
+                        عرض جميع الفئات
+                    </span>
+                <span class='cat-name'>
+                        الالكترونيات
+                    </span>
+                <span class='select-arrow'>
+                        <img src='images/right.svg' alt='arrow'
+                            class='img-fluid'>
+                    </span>
+                </span>
+            </a>
+        </div>
+        <div class='pop-inner'>
+            <div class='row'>
+                <div class='col-6'>
+                    <div class='inner-content-one text-right'>
+                        <ul>
+                            <li>المشهورة اكتر</li>
+
+                            $catgorys
+                        </ul>
+                    </div>
+                </div>
+                <div class='col-6'>
+                    <div class='inner-content-two text-right'>
+                        <ul>
+                            <li>افضل الماركات</li>
+                            $brands
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>";
     }
 
 
-   
-    
+
+
 
 }

@@ -24,6 +24,8 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 	Route::get('general_error/{msg}', function($msg) {
 		 return view('errors.general_error',['msg' => $msg]);
 	});
+
+
 	// route for to show payment form using get method
 		Route::get('pay', 'RazorpayController@pay')->name('pay');
     	Route::post('/paytm-callback', 'PaytmController@paytmCallback');
@@ -123,6 +125,9 @@ Route::group(['namespace' => 'Web','middleware' => $middleware], function () {
 
 		// add some route for front
 
+		Route::post('/getcontent','IndexController@ajaxData');
+// Route for new catgory page
+    Route::get('{catgoryname}','IndexController@catgory');
 
 	});
 

@@ -24,7 +24,8 @@ class ManufacturerController extends Controller
     public function display()
     {
         $title = array('pageTitle' => Lang::get("labels.Manufacturers"));
-        $manufacturers = $this->manufacturers->paginator(20);        
+        $manufacturers = $this->manufacturers->paginator(20); 
+           
         $result['commonContent'] = $this->Setting->commonContent();
         return view("admin.manufacturers.index")->with('manufacturers', $manufacturers)->with('result', $result);
     }
