@@ -201,9 +201,9 @@
                                                     </div>
                                                 </div>
                                             </li>
-                                            <div class="fixedPopUp">
+                                            <!-- <div class="fixedPopUp">
 
-                                            </div>
+                                            </div> -->
 
                                             @endforeach
                                             <li><a href="#">عروض</a></li>
