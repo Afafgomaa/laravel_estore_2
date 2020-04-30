@@ -76,7 +76,7 @@
 
             <?php } ?>
               
-              <li class="link-item"><a href="../../../../seller3333333/index.php">seller</a></li>
+              <li class="link-item"><a href="../../../../seller/index.php">seller</a></li>
           </ul> 
             
         </div>

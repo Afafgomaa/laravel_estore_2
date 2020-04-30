@@ -24,6 +24,8 @@ class CategoriesController extends Controller
   public function display(){
     $title = array('pageTitle' => Lang::get("labels.SubCategories"));
     $categories = $this->Categories->paginator();
+      
+//      $Image_name = DB::table('images')->find($homeimage->bannerup);
     $result['commonContent'] = $this->Setting->commonContent();
     return view("admin.categories.index",$title)->with('categories', $categories)->with('result', $result);
   }
@@ -104,13 +106,20 @@ class CategoriesController extends Controller
 
         $categoryName = $request->categoryName;
         $parent_id = $request->parent_id;
-
+        $sort_order = $request->sort_order;
         $uploadImage = $request->image_id;
         $uploadIcon  = $request->image_icone;
+      $uploadimagename  = $request['image-name'];
+      $uploadimageleft = $request['image-left'];
+      $uploadimageright = $request['image-right'];
         $categories_status  = $request->categories_status;
-
-        $categories_id = $this->Categories->insert($uploadImage,$date_added,$parent_id,$uploadIcon,$categories_status);
+//      dd($uploadimageleft);
+//     dd($request);
+$categories_id = $this->Categories->insert($uploadImage,$date_added,$parent_id,$sort_order,$uploadIcon,$uploadimagename,$uploadimageleft,$uploadimageright,$categories_status);
         $slug_flag = false;
+//      else{$categories_id = $this->Categories->insert($uploadImage,$date_added,$parent_id,,$sort_order,$uploadIcon,$categories_status);
+//        $slug_flag = false;}
+        
 
         //multiple lanugauge with record
         foreach($languages as $languages_data){
@@ -149,7 +158,13 @@ class CategoriesController extends Controller
     $title = array('pageTitle' => Lang::get("labels.EditCategories"));
     $images = new Images;
     $allimage = $images->getimages();
+      $id=$request->id;
+      $data_sort =DB::table('categories')->where('categories_id','=',$id)->get();
 
+      $Image_name =DB::table('images')->where('id','=',$data_sort[0]->Image_name)->get();
+      $image_left =DB::table('images')->where('id','=',$data_sort[0]->image_left)->get();
+      $image_right =DB::table('images')->where('id','=',$data_sort[0]->image_right)->get();
+      
     $result = array();
     $result['message'] = array();
 
@@ -177,6 +192,7 @@ class CategoriesController extends Controller
     $result['editSubCategory'] = $editSubCategory;
 
     $categories = $this->Categories->editrecursivecategories($request);
+//      dd($categories);
   //  dd($editSubCategory[0]->parent_id);
     $parent_id = $editSubCategory[0]->parent_id;
     $option = '<option value="0">'. Lang::get("labels.Leave As Parent").'</option>';
@@ -195,8 +211,9 @@ class CategoriesController extends Controller
     }
 
     $result['categories'] = $option;
+      $result['sort'] = $data_sort;
     $result['commonContent'] = $this->Setting->commonContent();
-    return view("admin.categories.edit",$title)->with('result', $result)->with('allimage', $allimage);
+    return view("admin.categories.edit",$title)->with('result', $result)->with('allimage', $allimage)->with('Image_name', $Image_name)->with('image_left', $image_left)->with('image_right', $image_right);
    }
 
    public function update(Request $request){
@@ -206,7 +223,14 @@ class CategoriesController extends Controller
      $result['message'] = Lang::get("labels.Category has been updated successfully");
      $last_modified 	=   date('y-m-d h:i:s');
      $parent_id = $request->parent_id;
+     $sort_order = $request->sort_order;
+    
      $categories_id = $request->id;
+       
+        $uploadimagename  = $request['image-name'];
+      $uploadimageleft = $request['image-left'];
+      $uploadimageright = $request['image-right'];
+       
      $categories_status  = $request->categories_status;
 
      //get function from other controller
@@ -243,7 +267,7 @@ class CategoriesController extends Controller
          $uploadIcon = $request->oldIcon;
      }
 
-     $updateCategory = $this->Categories->updaterecord($categories_id,$uploadImage,$uploadIcon,$last_modified,$parent_id,$slug,$categories_status);
+     $updateCategory = $this->Categories->updaterecord($categories_id,$uploadImage,$uploadIcon,$last_modified,$uploadimagename,$uploadimageleft,$uploadimageright,$parent_id,$sort_order,$slug,$categories_status);
 
      foreach($languages as $languages_data){
        $categories_name = 'category_name_'.$languages_data->languages_id;

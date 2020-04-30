@@ -432,6 +432,13 @@
                         <i class="fa fa-picture-o" aria-hidden="true"></i> <span>Barcode </span>
                     </a>
                 </li>
+          
+          
+            <li>
+          <a href="{{url('admin/homeimage')}}">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i> <span>Home Image </span>
+                    </a>
+                </li>
       </ul>
     </section>
     <!-- /.sidebar -->

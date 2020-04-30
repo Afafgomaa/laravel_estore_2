@@ -64,6 +64,8 @@ Route::group(['middleware' => ['installer']], function () {
         Route::post('/updateconstantBanner', 'AdminConstantController@updateconstantBanner')->middleware('website_routes');
         Route::post('/deleteconstantBanner/', 'AdminConstantController@deleteconstantBanner')->middleware('website_routes');
         Route::get('/parcode', 'BarcodeController@display');
+         Route::get('/homeimage', 'HomeImageController@display')->middleware('website_routes');
+        Route::post('/homeimage/insert', 'HomeImageController@insert');
     });
 
     Route::group(['prefix' => 'admin/languages', 'middleware' => 'auth', 'namespace' => 'AdminControllers'], function () {

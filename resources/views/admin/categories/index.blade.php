@@ -64,7 +64,12 @@
                                             <th>@sortablelink('categories_id', trans('labels.ID') )</th>
                                             <th>{{ trans('labels.Name') }}</th>
                                             <th>{{ trans('labels.Image') }}</th>
+                                            <th>Image_name</th>
+                                            <th>image_left</th>
+                                            <th>image_right</th>
                                             <th>{{ trans('labels.Icon') }}</th>
+                                            <th>sort_order</th>
+                                            <th>sub_sort_order</th>
                                             <!-- <th>{{trans('labels.MainCategory')}}</th> -->
                                             <th>@sortablelink('created_at', trans('labels.AddedLastModifiedDate') )</th>
                                             <th>@sortablelink('status', trans('labels.Status'))</th>
@@ -79,7 +84,12 @@
                                                         <td>{{ $category->id }}</td>
                                                         <td>{{ $category->name }}</td>
                                                         <td><img src="{{asset($category->imgpath)}}" alt="" width=" 100px"></td>
+                                                        <td><img src="{{asset($category->Image_name)}}" alt="" width=" 100px"></td>
+                                                        <td><img src="{{asset($category->image_left	)}}" alt="" width=" 100px"></td>
+                                                        <td><img src="{{asset($category->image_right)}}" alt="" width=" 100px"></td>
                                                         <td><img src="{{asset($category->iconpath)}}" alt="" width=" 100px"></td>
+                                                        <td>{{ $category->sort_order }}</td>
+                                                        <td>{{ $category->sub_sort_order }}</td>
                                                         <!-- <td>{{ $category->mainCategoryName }}</td> -->
                                                         <td>
                                                             <strong>{{ trans('labels.AddedDate') }}: </strong> {{ $category->date_added }}<br>
