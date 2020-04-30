@@ -17,7 +17,7 @@ use Auth;
 use ZipArchive;
 use File;
 
-class AdminController extends Controller
+class AdminbackupController extends Controller
 {
 	private $domain;
     public function __construct(Admin $admin, Setting $setting, Order $order, Customers $customers)
@@ -29,7 +29,7 @@ class AdminController extends Controller
     }
 
 	public function dashboard(Request $request){
-	
+
 		$admin_id = auth()->user();
 		if($admin_id->role_id != 1){
 		return	$this->dashboardForSaller($request);
@@ -69,16 +69,16 @@ class AdminController extends Controller
 
 
 
-			
 
-				
+
+
 				$orders_products = DB::table('orders_products')
 				->select('final_price', DB::raw('SUM(final_price) as total_price') ,'products_id','products_quantity' )
 				->where('orders_id', '=' ,$orders_data->orders_id)
 				->groupBy('final_price')
 				->get();
 
-			
+
 
 
 			if(count($orders_products)>0 and !empty($orders_products[0]->total_price)){
@@ -117,7 +117,7 @@ class AdminController extends Controller
 
   		$result['profit'] = number_format($profit,2);
 		  $result['total_money'] = number_format($purchased_price,2);
-		  
+
 
   		$compeleted_orders = 0;
   		$pending_orders = 0;
@@ -164,13 +164,13 @@ class AdminController extends Controller
   		$result['recentProducts'] = $recentProducts;
 
   		//products
-			
+
 				$products = DB::table('products')
 	  			->leftJoin('products_description','products_description.products_id','=','products.products_id')
 	  			->where('products_description.language_id','=', $language_id)
 	  			->orderBy('products.products_id', 'DESC')
 	  			->get();
-			
+
 
 
 
@@ -233,7 +233,7 @@ class AdminController extends Controller
 	}
 
 	protected function dashboardForSaller(Request $request){
-		
+
 		$admin_id = auth()->user();
 		$title 			  = 	array('pageTitle' => Lang::get("labels.title_dashboard"));
 		$language_id      = 	'1';
@@ -241,13 +241,13 @@ class AdminController extends Controller
 		$result 		  =		array();
 
 		$reportBase		  = 	$request->reportBase;
-	
+
 		$orders = new OrdersController($this->Setting);
 		$result['total_orders'] = $orders->display()['all_count'];
 
-		
 
-		
+
+
 
 		$products = DB::table('products')
 		->leftJoin('products_description','products_description.products_id','=','products.products_id')
@@ -255,7 +255,7 @@ class AdminController extends Controller
 		->where('products.admin_id', $admin_id->id)
 		->orderBy('products.products_id', 'DESC')
 		->get();
-  
+
 
 
 
@@ -303,7 +303,7 @@ $result['totalProducts'] = count($products);
 
 
 
-  
+
 		$currency = $this->Setting->getSettings();
 		$result['currency'] = $currency;
 
@@ -328,7 +328,7 @@ $result['totalProducts'] = count($products);
 
 
 
-	  // test 
+	  // test
 	  $orders = DB::table('orders')
 	  ->LeftJoin('currencies', 'currencies.code', '=', 'orders.currency')
 	  ->where('customers_id','!=','')
@@ -353,9 +353,9 @@ $result['totalProducts'] = count($products);
 
 
 
-		  
 
-			  
+
+
 			  $orders_products = DB::table('orders_products')->where('admin_id',$admin_id->id)
 			  ->select('final_price', DB::raw('SUM(final_price) as total_price') ,'products_id','products_quantity' )
 			  ->where('orders_id', '=' ,$orders_data->orders_id)
@@ -389,7 +389,7 @@ $result['totalProducts'] = count($products);
 		  $index++;
 
 		}
-	
+
 
 	  $compeleted_orders = 0;
   		$pending_orders = 0;
@@ -418,7 +418,7 @@ $result['totalProducts'] = count($products);
 
 		$result['profit'] = number_format($profit,2);
 		$result['total_money'] = number_format($purchased_price,2);
-		  
+
 /////////////////////////////////
 		$result['inprocess'] = count($orders)-$pending_orders-$compeleted_orders;
   		//add to cart orders
@@ -431,13 +431,13 @@ $result['totalProducts'] = count($products);
 		  //test
 
 
-   
+
            $role =  DB::table('manage_role')
 			->where('user_types_id',Auth()->user()->role_id)
 			->first();
 			$result['commonContent'] = $this->Setting->commonContent();
 		return view("admin.dashboard",$title)->with('result', $result)->with('role', $role);
-		
+
 	}
 
 
@@ -998,7 +998,7 @@ dd($request);
 			$admintype_update = $roles[0]->admintype_update;
 			$admintype_delete = $roles[0]->language_delete;
 			$manage_admins_role = $roles[0]->manage_admins_role;
-			
+
 			$reviews_view = $roles[0]->reviews_view;
 			$reviews_update = $roles[0]->reviews_update;
 
@@ -1340,10 +1340,10 @@ dd($request);
 						'admintype_update' => $request->admintype_update,
 						'admintype_delete' => $request->admintype_delete,
 						'manage_admins_role' => $request->manage_admins_role,
-						
+
 						'reviews_view' => $request->reviews_view,
 						'reviews_update' => $request->reviews_update,
-						
+
 						]);
 
 		$message = Lang::get("labels.Roles has been added successfully");

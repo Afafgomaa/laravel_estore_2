@@ -143,7 +143,7 @@
                                                                 <select class="image-picker show-html field-validate" name="image_icone" id="select_img">
                                                                     <option value=""></option>
                                                                     @foreach($allimage as $key=>$image)
-                                                                      <option data-img-src="{{asset($image->path)}}" class="imagedetail" data-img-alt="{{$key}}" value="{{$image->id}}"> {{$image->id}} </option>
+                                                                      <option data-img-src="{{asset($image->path)}}" class="imagedetail" data-img-alt="{{$key}}" value="{{$image->path}}"> {{$image->id}} </option>
                                                                     @endforeach
                                                                 </select>
                                                                 @endif

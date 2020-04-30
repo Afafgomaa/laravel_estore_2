@@ -28,7 +28,7 @@
                     <li> <a href="{{ URL::to('/shop')}}"><i class="fa fa-angle-right"></i>@lang('website.Shop')</a> </li>
                     <li> <a href="{{ URL::to('/orders')}}"><i class="fa fa-angle-right"></i>@lang('website.Orders')</a> </li>
                     <li> <a href="{{ URL::to('/viewcart')}}"><i class="fa fa-angle-right"></i>@lang('website.Shopping Cart')</a> </li>
-                    <li> <a href="{{ URL::to('/wishlist')}}"><i class="fa fa-angle-right"></i>@lang('website.Wishlist')</a> </li>           
+                    <li> <a href="{{ URL::to('/wishlist')}}"><i class="fa fa-angle-right"></i>@lang('website.Wishlist')</a> </li>
                   </ul>
                 </div>
           </div>
@@ -50,23 +50,23 @@
               <li> <i class="fas fa-phone"></i><span>({{$result['commonContent']['setting'][11]->value}})</span> </li>
               <li> <i class="fas fa-envelope"></i><span> <a href="mailto:{{$result['commonContent']['setting'][3]->value}}">{{$result['commonContent']['setting'][3]->value}}</a> </span> </li>
               </ul>
-              
+
           </div>
         </div>
-          
+
       </div>
-      
+
     </div>
-    
+
   </div>
   <div class="container-fluid p-0">
       <div class="social-content">
           <div class="container">
             <div class="social-div">
               <div class="row align-items-center justify-content-between">
-                
+
                 <div class="col-12 col-md-4">
-                      
+
                       <div class="footer-info">
                         © @lang('website.Copy Rights').  <a href="{{url('/page?name=refund-policy')}}">@lang('website.Privacy')</a>&nbsp;&bull;&nbsp;<a href="{{url('/page?name=term-services')}}">@lang('website.Terms')</a>
                       </div>
@@ -80,7 +80,7 @@
                               @else
                               <a href="{{$result['commonContent']['setting'][50]->value}}" class="fab fa-facebook-f" data-toggle="tooltip" data-placement="bottom" title="@lang('website.facebook')"></a>
                               @endif
-                            </li> 
+                            </li>
                             <li>
                               @if(!empty($result['commonContent']['setting'][52]->value))
                                   <a href="{{$result['commonContent']['setting'][52]->value}}"  class="fab fa-twitter" data-toggle="tooltip" data-placement="bottom" title="@lang('website.twitter')"></a>
@@ -88,7 +88,7 @@
                                   <a href="#" class="fab fa-twitter" data-toggle="tooltip" data-placement="bottom" title="@lang('website.twitter')"></a>
                               @endif
                             </li>
-            
+
                             <li>
                               @if(!empty($result['commonContent']['setting'][51]->value))
                                   <a href="{{$result['commonContent']['setting'][51]->value}}" class="fab sk fa-google" data-toggle="tooltip" data-placement="bottom" title="@lang('website.google')"></a>
@@ -96,7 +96,7 @@
                                   <a href="#"><i class="fab sk fa-google"  data-toggle="tooltip" data-placement="bottom" title="@lang('website.google')"></i></a>
                               @endif
                             </li>
-            
+
                             <li>
                               @if(!empty($result['commonContent']['setting'][53]->value))
                                   <a href="{{$result['commonContent']['setting'][53]->value}}" class="fab fa-instagram" data-toggle="tooltip" data-placement="bottom" title="@lang('website.Instagram')"></a>
@@ -109,7 +109,7 @@
                 </div>
               </div>
           </div>
-          </div>  
+          </div>
       </div>
   </div>
 </footer>

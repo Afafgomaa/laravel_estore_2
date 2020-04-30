@@ -246,7 +246,9 @@ class Categories extends Model
         return $categories;
     }
 
+
     public function insert($uploadImage,$date_added,$parent_id,$sort_order,$uploadIcon,$uploadimagename,$uploadimageleft,$uploadimageright,$categories_status){
+
        
         if($parent_id==0){ 
 //         $categorysort = DB::table("categories")
@@ -260,9 +262,11 @@ class Categories extends Model
             'created_at'		 =>   $date_added,
             'parent_id'		 	 =>   $parent_id,
             'sort_order'		 =>   $sort_order,
+
             'Image_name'		 =>   $uploadimagename,
             'image_left'		 =>   $uploadimageleft,
             'image_right'		 =>   $uploadimageright,
+
             'categories_icon'	 =>	  $uploadIcon,
             'categories_slug'    =>   'Null',
             'categories_status' => $categories_status
@@ -294,9 +298,11 @@ class Categories extends Model
             'created_at'		 =>   $date_added,
             'parent_id'		 	 =>   $parent_id,
             'sub_sort_order'	 =>   $sort_order,
+
             'Image_name'		 =>   $uploadimagename,
             'image_left'		 =>   $uploadimageleft,
             'image_right'		 =>   $uploadimageright,
+
             'categories_icon'	 =>	  $uploadIcon,
             'categories_slug'    =>   'Null',
             'categories_status' => $categories_status
@@ -330,7 +336,9 @@ class Categories extends Model
         return $category;
     }
 
+
     public function updaterecord($categories_id,$uploadImage,$uploadIcon,$last_modified,$uploadimagename,$uploadimageleft,$uploadimageright,$parent_id,$sort_order,$slug,$categories_status){
+
         if($parent_id==0){
      
       DB::table('categories')->where('categories_id', $categories_id)->update(
@@ -339,9 +347,11 @@ class Categories extends Model
           'categories_icon'    =>   $uploadIcon,
           'updated_at'  	     =>   $last_modified,
           'parent_id' 		     =>   $parent_id,
+
           'Image_name'		 =>   $uploadimagename,
           'image_left'		 =>   $uploadimageleft,
           'image_right'		 =>   $uploadimageright,
+
           'sort_order'         =>   $sort_order,
           'categories_slug'    =>   $slug,
           'categories_status'=>$categories_status
@@ -353,9 +363,11 @@ class Categories extends Model
           'categories_image'   =>   $uploadImage,
           'categories_icon'    =>   $uploadIcon,
           'updated_at'  	     =>   $last_modified,
+
           'Image_name'		 =>   $uploadimagename,
           'image_left'		 =>   $uploadimageleft,
           'image_right'		 =>   $uploadimageright,
+
           'parent_id' 		     =>   $parent_id,
           'sub_sort_order'         =>   $sort_order,
           'categories_slug'    =>   $slug,

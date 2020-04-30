@@ -29,7 +29,7 @@ class Index extends Model
             ->get();
 
             if(empty($slides) or count($slides)==0){
-               
+
                 $slides = DB::table('sliders_images')
                     ->leftJoin('image_categories', 'sliders_images.sliders_image', '=', 'image_categories.image_id')
                     ->select('sliders_id as id',
@@ -72,7 +72,7 @@ class Index extends Model
 			 ->groupBy('sliders_images.sliders_id')
        ->get();
       //  dd($slides );
-        
+
         // $slides = DB::table('sliders_images')
         //     ->leftJoin('image_categories', 'sliders_images.sliders_image', '=', 'image_categories.image_id')
         //     ->select('sliders_id as id',
@@ -104,7 +104,7 @@ class Index extends Model
         //             ->where('languages_id', '=', 1)
         //             ->get();
         //     }
-            
+
         return $slides;
     }
 
@@ -178,9 +178,9 @@ class Index extends Model
         $top_offers = DB::table('top_offers')
             ->where('language_id', Session::get('language_id'))
             ->first();
-            
+
         $result['top_offers'] = $top_offers;
-        
+
 
         $items = DB::table('menus')
             ->leftJoin('menu_translation', 'menus.id', '=', 'menu_translation.menu_id')
@@ -294,9 +294,9 @@ class Index extends Model
             })
             ->select('manufacturers.*', 'manufacturers_info.*', 'image_categories.path as manufacturer_image')
             ->get();
-            
+
         $result['manufacturers'] = $manufacturers;
-        
+
 
         //liked_products
         $total_wishlist = 0;
@@ -305,8 +305,8 @@ class Index extends Model
                 ->leftjoin('products','products.products_id','=','liked_products.liked_products_id')
                 ->where('products_status', '1')
                 ->where('liked_customers_id', '=', session('customers_id'))->count();
-        }         
-            
+        }
+
         $result['total_wishlist'] = $total_wishlist;
 
 
@@ -321,7 +321,7 @@ class Index extends Model
         $result['homepagebanners'] = $homepagebanners;
         return $result;
     }
-    
+
 
     private function allcategories()
     {
@@ -342,7 +342,7 @@ class Index extends Model
             ->get();
 
         $result = array();
-        $result['categories'] = $categories; 
+        $result['categories'] = $categories;
         $comma_categories = array();
 
         foreach($categories as $category){
@@ -350,11 +350,12 @@ class Index extends Model
             $comma_categories[] = $category->name;
         }
 
-        $result['comma_categories'] = implode(',', $comma_categories);       
+        $result['comma_categories'] = implode(',', $comma_categories);
+
         return $categories;
     }
 
-    private function categories()
+    protected function categories()
     {
 
         $result = array();
@@ -372,10 +373,11 @@ class Index extends Model
                 'image_categories.path as path'
             )
             ->where('categories_description.language_id', '=', Session::get('language_id'))
+
             ->where('parent_id', '0')
             ->groupBy('categories.categories_id')
             ->get();
-            
+
         $index = 0;
         foreach ($categories as $categories_data) {
 
@@ -443,11 +445,14 @@ class Index extends Model
 
                 $individual_products = DB::table('products_to_categories')
                     ->LeftJoin('products', 'products.products_id', '=', 'products_to_categories.products_id')
-                    ->select('products_to_categories.categories_id', DB::raw('COUNT(DISTINCT products.products_id) as total_products'))
+                    ->LeftJoin('manufacturers','manufacturers.manufacturers_id','products.manufacturers_id')
+                    ->select('products_to_categories.categories_id', DB::raw('COUNT(DISTINCT products.products_id) as total_products')
+                    , 'manufacturers.manufacturers_id as brandId','manufacturers.manufacturer_image as brandImage')
                     ->where('products_to_categories.categories_id', '=', $sub_categories_id)
                     ->get();
-
                 $sub_categories_data->total_products = $individual_products[0]->total_products;
+                $sub_categories_data->brand = $individual_products[0]->brandId;
+                $sub_categories_data->brandImage = $individual_products[0]->brandImage;
                 $data[$index2++] = $sub_categories_data;
 
             }
@@ -455,6 +460,7 @@ class Index extends Model
             $result[$index++]->sub_categories = $data;
 
         }
+
         return ($result);
 
     }

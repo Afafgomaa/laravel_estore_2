@@ -39,6 +39,7 @@ class CategoriesController extends Controller
   }
 
   public function add(Request $request){
+    
     $title = array('pageTitle' => Lang::get("labels.AddSubCategories"));
 
     $images = new Images;
@@ -97,7 +98,7 @@ class CategoriesController extends Controller
   }
 
   public function insert(Request $request){
-
+    
         $date_added	= date('y-m-d h:i:s');
         $result = array();
 
@@ -113,10 +114,11 @@ class CategoriesController extends Controller
       $uploadimageleft = $request['image-left'];
       $uploadimageright = $request['image-right'];
         $categories_status  = $request->categories_status;
+
 //      dd($uploadimageleft);
 //     dd($request);
 $categories_id = $this->Categories->insert($uploadImage,$date_added,$parent_id,$sort_order,$uploadIcon,$uploadimagename,$uploadimageleft,$uploadimageright,$categories_status);
-        $slug_flag = false;
+
 //      else{$categories_id = $this->Categories->insert($uploadImage,$date_added,$parent_id,,$sort_order,$uploadIcon,$categories_status);
 //        $slug_flag = false;}
         
@@ -161,10 +163,12 @@ $categories_id = $this->Categories->insert($uploadImage,$date_added,$parent_id,$
       $id=$request->id;
       $data_sort =DB::table('categories')->where('categories_id','=',$id)->get();
 
+
       $Image_name =DB::table('images')->where('id','=',$data_sort[0]->Image_name)->get();
       $image_left =DB::table('images')->where('id','=',$data_sort[0]->image_left)->get();
       $image_right =DB::table('images')->where('id','=',$data_sort[0]->image_right)->get();
       
+
     $result = array();
     $result['message'] = array();
 
@@ -268,6 +272,7 @@ $categories_id = $this->Categories->insert($uploadImage,$date_added,$parent_id,$
      }
 
      $updateCategory = $this->Categories->updaterecord($categories_id,$uploadImage,$uploadIcon,$last_modified,$uploadimagename,$uploadimageleft,$uploadimageright,$parent_id,$sort_order,$slug,$categories_status);
+
 
      foreach($languages as $languages_data){
        $categories_name = 'category_name_'.$languages_data->languages_id;

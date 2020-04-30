@@ -1,3 +1,4 @@
+
 <!-- Shop Page One content -->
 
 
@@ -6,17 +7,17 @@
         <div class="container">
             <ol class="breadcrumb">
                 @if(!empty($result['category_name']) and !empty($result['sub_category_name']))
-                <li class="breadcrumb-item"><a href="{{ URL::to('/')}}">@lang('website.Home')</a></li>
-                <li class="breadcrumb-item"><a href="{{ URL::to('/shop')}}">@lang('website.Shop')</a></li>
-                <li class="breadcrumb-item"><a
-                        href="{{ URL::to('/shop?category='.$result['category_slug'])}}">{{$result['category_name']}}</a>
-                </li>
-                <li class="breadcrumb-item active">{{$result['sub_category_name']}}</li>
+                    <li class="breadcrumb-item"><a href="{{ URL::to('/')}}">@lang('website.Home')</a></li>
+                    <li class="breadcrumb-item"><a href="{{ URL::to('/shop')}}">@lang('website.Shop')</a></li>
+                    <li class="breadcrumb-item"><a
+                            href="{{ URL::to('/shop?category='.$result['category_slug'])}}">{{$result['category_name']}}</a>
+                    </li>
+                    <li class="breadcrumb-item active">{{$result['sub_category_name']}}</li>
                 @elseif(!empty($result['category_name']) and empty($result['sub_category_name']))
-                <li class="breadcrumb-item active">{{$result['category_name']}}</li>
+                    <li class="breadcrumb-item active">{{$result['category_name']}}</li>
                 @else
-                <li class="breadcrumb-item"><a href="{{ URL::to('/')}}">@lang('website.Home')</a></li>
-                <li class="breadcrumb-item active">@lang('website.Shop')</li>
+                    <li class="breadcrumb-item"><a href="{{ URL::to('/')}}">@lang('website.Home')</a></li>
+                    <li class="breadcrumb-item active">@lang('website.Shop')</li>
                 @endif
             </ol>
         </div>
@@ -34,320 +35,320 @@
         </div>
     </div>
     @if($result['products']['success']==1)
-    <div class="container">
-        <div class="top-bar">
-            <div class="row">
-                <div class="col-12 col-lg-12">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-xl-2">
-                            <div class="block">
-                                <label>@lang('website.Display')</label>
-                                <div class="buttons">
-                                    <a href="javascript:void(0);" id="grid"><i class="fas fa-th-large"></i></a>
-                                    <a href="javascript:void(0);" id="list"><i class="fas fa-list"></i></a>
+        <div class="container">
+            <div class="top-bar">
+                <div class="row">
+                    <div class="col-12 col-lg-12">
+                        <div class="row align-items-center">
+                            <div class="col-12 col-xl-2">
+                                <div class="block">
+                                    <label>@lang('website.Display')</label>
+                                    <div class="buttons">
+                                        <a href="javascript:void(0);" id="grid"><i class="fas fa-th-large"></i></a>
+                                        <a href="javascript:void(0);" id="list"><i class="fas fa-list"></i></a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-12 col-xl-7 select-bar">
-
+                            <div class="col-12 col-xl-7 select-bar">
 
 
-                        </div>
-                        <div class="col-12 col-xl-3">
-                            <form class="form-inline justify-content-end" id="load_products_form">
-                                @if(!empty(app('request')->input('search')))
-                                <input type="hidden" name="search" value="{{ app('request')->input('search') }}">
-                                @endif
-                                @if(!empty(app('request')->input('category')))
-                                <input type="hidden" name="category"
-                                    value="@if(app('request')->input('category')!='all'){{ app('request')->input('category') }} @endif">
-                                @endif
-                                <input type="hidden" name="load_products" value="1">
-                                <input type="hidden" name="products_style" id="products_style" value="grid">
 
+                            </div>
+                            <div class="col-12 col-xl-3">
+                                <form class="form-inline justify-content-end" id="load_products_form">
+                                    @if(!empty(app('request')->input('search')))
+                                        <input type="hidden" name="search" value="{{ app('request')->input('search') }}">
+                                    @endif
+                                    @if(!empty(app('request')->input('category')))
+                                        <input type="hidden" name="category"
+                                               value="@if(app('request')->input('category')!='all'){{ app('request')->input('category') }} @endif">
+                                    @endif
+                                    <input type="hidden" name="load_products" value="1">
+                                    <input type="hidden" name="products_style" id="products_style" value="grid">
 
-                                <div class="form-group">
-                                    <label>@lang('website.Sort')</label>
-                                    <div class="select-control">
-                                        <select name="type" id="sortbytype" class="form-control">
-                                            <option value="desc" @if(app('request')->input('type')=='desc') selected
-                                                @endif>@lang('website.Newest')</option>
-                                            <option value="atoz" @if(app('request')->input('type')=='atoz') selected
-                                                @endif>@lang('website.A - Z')</option>
-                                            <option value="ztoa" @if(app('request')->input('type')=='ztoa') selected
-                                                @endif>@lang('website.Z - A')</option>
-                                            <option value="hightolow" @if(app('request')->input('type')=='hightolow')
-                                                selected @endif>@lang('website.Price: High To Low')</option>
-                                            <option value="lowtohigh" @if(app('request')->input('type')=='lowtohigh')
-                                                selected @endif>@lang('website.Price: Low To High')</option>
-                                            <option value="topseller" @if(app('request')->input('type')=='topseller')
-                                                selected @endif>@lang('website.Top Seller')</option>
-                                            <option value="special" @if(app('request')->input('type')=='special')
-                                                selected @endif>@lang('website.Special Products')</option>
-                                            <option value="mostliked" @if(app('request')->input('type')=='mostliked')
-                                                selected @endif>@lang('website.Most Liked')</option>
-                                        </select>
-                                    </div>
 
                                     <div class="form-group">
-                                        <label>@lang('website.Limit')</label>
+                                        <label>@lang('website.Sort')</label>
                                         <div class="select-control">
-                                            <select class="form-control" name="limit" id="sortbylimit">
-                                                <option value="15" @if(app('request')->input('limit')=='15') selected
-                                                    @endif>15</option>
-                                                <option value="30" @if(app('request')->input('limit')=='30') selected
-                                                    @endif>30</option>
-                                                <option value="60" @if(app('request')->input('limit')=='60') selected
-                                                    @endif>60</option>
+                                            <select name="type" id="sortbytype" class="form-control">
+                                                <option value="desc" @if(app('request')->input('type')=='desc') selected
+                                                    @endif>@lang('website.Newest')</option>
+                                                <option value="atoz" @if(app('request')->input('type')=='atoz') selected
+                                                    @endif>@lang('website.A - Z')</option>
+                                                <option value="ztoa" @if(app('request')->input('type')=='ztoa') selected
+                                                    @endif>@lang('website.Z - A')</option>
+                                                <option value="hightolow" @if(app('request')->input('type')=='hightolow')
+                                                selected @endif>@lang('website.Price: High To Low')</option>
+                                                <option value="lowtohigh" @if(app('request')->input('type')=='lowtohigh')
+                                                selected @endif>@lang('website.Price: Low To High')</option>
+                                                <option value="topseller" @if(app('request')->input('type')=='topseller')
+                                                selected @endif>@lang('website.Top Seller')</option>
+                                                <option value="special" @if(app('request')->input('type')=='special')
+                                                selected @endif>@lang('website.Special Products')</option>
+                                                <option value="mostliked" @if(app('request')->input('type')=='mostliked')
+                                                selected @endif>@lang('website.Most Liked')</option>
                                             </select>
-
                                         </div>
-                                        @include('web.common.scripts.shop_page_load_products')
-                            </form>
+
+                                        <div class="form-group">
+                                            <label>@lang('website.Limit')</label>
+                                            <div class="select-control">
+                                                <select class="form-control" name="limit" id="sortbylimit">
+                                                    <option value="15" @if(app('request')->input('limit')=='15') selected
+                                                        @endif>15</option>
+                                                    <option value="30" @if(app('request')->input('limit')=='30') selected
+                                                        @endif>30</option>
+                                                    <option value="60" @if(app('request')->input('limit')=='60') selected
+                                                        @endif>60</option>
+                                                </select>
+
+                                            </div>
+                                    @include('web.common.scripts.shop_page_load_products')
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
-    @endif
-    </div>
-    </div>
+        @endif
+        </div>
+        </div>
 
-    <section class="shop-content shop-three">
+        <section class="shop-content shop-three">
 
-        <div class="container">
-            <div class="row">
+            <div class="container">
+                <div class="row">
 
-                <div class="col-12 col-lg-3  d-lg-block d-xl-block right-menu">
-                  
-                    <div class="sub-manu collapse multi-collapse" id="cats">
-                        <div class="right-menu-categories">
-                            @include('web.common.shopCategories')
-                            @php shopCategories(); @endphp
-                        </div>
-                    
-                    @if($result['products']['success']==1)
-                    @if(!empty($result['categories']))
-                    <form enctype="multipart/form-data" name="filters" id="test" method="get">
-                        <input type="hidden" name="min_price" id="min_price" value="0">
-                        <input type="hidden" name="max_price" id="max_price" value="{{$result['filters']['maxPrice']}}">
-                        @if(app('request')->input('category'))
-                        <input type="hidden" name="category" value="{{app('request')->input('category')}}">
-                        @endif
-                        @if(app('request')->input('filters_applied')==1)
-                        <input type="hidden" name="filters_applied" id="filters_applied" value="1">
-                        <input type="hidden" name="options" id="options"
-                            value="<?php echo implode($result['filter_attribute']['options'],',')?>">
-                        <input type="hidden" name="options_value" id="options_value"
-                            value="<?php echo implode($result['filter_attribute']['option_values'], ',')?>">
-                        @else
-                        <input type="hidden" name="filters_applied" id="filters_applied" value="0">
-                        @endif
-                        <div class="range-slider-main">
-                            <h2>@lang('website.Price Range')</h2>
-                            <div class="wrapper">
-                                <div class="range-slider">
-                                    <input onChange="getComboA(this)" name="price" type="text" class="js-range-slider"
-                                        value="" />
-                                </div>
-                                <div class="extra-controls form-inline">
-                                    <div class="form-group">
+                    <div class="col-12 col-lg-3  d-lg-block d-xl-block right-menu">
+
+                        <div class="sub-manu collapse multi-collapse" id="cats">
+                            <div class="right-menu-categories">
+                                @include('web.common.shopCategories')
+                                @php shopCategories(); @endphp
+                            </div>
+
+                            @if($result['products']['success']==1)
+                                @if(!empty($result['categories']))
+                                    <form enctype="multipart/form-data" name="filters" id="test" method="get">
+                                        <input type="hidden" name="min_price" id="min_price" value="0">
+                                        <input type="hidden" name="max_price" id="max_price" value="{{$result['filters']['maxPrice']}}">
+                                        @if(app('request')->input('category'))
+                                            <input type="hidden" name="category" value="{{app('request')->input('category')}}">
+                                        @endif
+                                        @if(app('request')->input('filters_applied')==1)
+                                            <input type="hidden" name="filters_applied" id="filters_applied" value="1">
+                                            <input type="hidden" name="options" id="options"
+                                                   value="<?php echo implode($result['filter_attribute']['options'],',')?>">
+                                            <input type="hidden" name="options_value" id="options_value"
+                                                   value="<?php echo implode($result['filter_attribute']['option_values'], ',')?>">
+                                        @else
+                                            <input type="hidden" name="filters_applied" id="filters_applied" value="0">
+                                        @endif
+                                        <div class="range-slider-main">
+                                            <h2>@lang('website.Price Range')</h2>
+                                            <div class="wrapper">
+                                                <div class="range-slider">
+                                                    <input onChange="getComboA(this)" name="price" type="text" class="js-range-slider"
+                                                           value="" />
+                                                </div>
+                                                <div class="extra-controls form-inline">
+                                                    <div class="form-group">
                                         <span>
                                             @if(session('symbol_left') != null)
-                                            <font>{{session('symbol_left')}}</font>
+                                                <font>{{session('symbol_left')}}</font>
                                             @else
-                                            <font>{{session('symbol_right')}}</font>
+                                                <font>{{session('symbol_right')}}</font>
                                             @endif
                                             <input type="text" class="js-input-from form-control" value="0" />
                                         </span>
-                                        <font>-</font>
-                                        <span>
+                                                        <font>-</font>
+                                                        <span>
                                             @if(session('symbol_left') != null)
-                                            <font>{{session('symbol_left')}}</font>
-                                            @else
-                                            <font>{{session('symbol_right')}}</font>
-                                            @endif
+                                                                <font>{{session('symbol_left')}}</font>
+                                                            @else
+                                                                <font>{{session('symbol_right')}}</font>
+                                                            @endif
                                             <input type="text" class="js-input-to form-control" value="0" />
                                             <input type="hidden" class="maximum_price"
-                                                value="{{$result['filters']['maxPrice']}}">
+                                                   value="{{$result['filters']['maxPrice']}}">
                                         </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--- @-->
-                        @endif
-                        @include('web.common.scripts.slider')
-                        @if(count($result['filters']['attr_data'])>0)
-                        @foreach($result['filters']['attr_data'] as $key=>$attr_data)
-                        <div class="color-range-main">
-                            <h1 @if(count($result['filters']['attr_data'])==$key+1) last @endif>
-                                {{$attr_data['option']['name']}}</h1>
-                            <div class="block">
-                                <div class="card-body">
-                                    <ul class="list" style="list-style:none; padding: 0px;">
-                                        @foreach($attr_data['values'] as $key=>$values)
-                                        <li>
-                                            <div class="form-check">
-                                                <label class="form-check-label">
-                                                    <input class="form-check-input filters_box"
-                                                        name="{{$attr_data['option']['name']}}[]" type="checkbox"
-                                                        value="{{$values['value']}}" <?php
-                                             if(!empty($result['filter_attribute']['option_values']) and in_array($values['value_id'],$result['filter_attribute']['option_values'])) print 'checked';
-                                             ?>>
-                                                    {{$values['value']}}
-                                                </label>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
+                                        </div>
+                                        <!--- @-->
+                                        @endif
+                                        @include('web.common.scripts.slider')
+                                        @if(count($result['filters']['attr_data'])>0)
+                                            @foreach($result['filters']['attr_data'] as $key=>$attr_data)
+                                                <div class="color-range-main">
+                                                    <h1 @if(count($result['filters']['attr_data'])==$key+1) last @endif>
+                                                        {{$attr_data['option']['name']}}</h1>
+                                                    <div class="block">
+                                                        <div class="card-body">
+                                                            <ul class="list" style="list-style:none; padding: 0px;">
+                                                                @foreach($attr_data['values'] as $key=>$values)
+                                                                    <li>
+                                                                        <div class="form-check">
+                                                                            <label class="form-check-label">
+                                                                                <input class="form-check-input filters_box"
+                                                                                       name="{{$attr_data['option']['name']}}[]" type="checkbox"
+                                                                                       value="{{$values['value']}}" <?php
+                                                                                    if(!empty($result['filter_attribute']['option_values']) and in_array($values['value_id'],$result['filter_attribute']['option_values'])) print 'checked';
+                                                                                    ?>>
+                                                                                {{$values['value']}}
+                                                                            </label>
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                    </div>
 
-                        </div>
-                        @endforeach
-                        @endif
-                        <div class="color-range-main">
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                        <div class="color-range-main">
 
-                            <div class="alret alert-danger" id="filter_required">
-                            </div>
+                                            <div class="alret alert-danger" id="filter_required">
+                                            </div>
 
-                            <div class="button">
-                                <?php
-                 $url = '';
-                       if(isset($_REQUEST['category'])){
-                   $url = "?category=".$_REQUEST['category'];
-                   $sign = '&';
-                 }else{
-                   $sign = '?';
-                 }
-                 if(isset($_REQUEST['search'])){
-                   $url.= $sign."search=".$_REQUEST['search'];
-                 }
-               ?>
+                                            <div class="button">
+                                                <?php
+                                                $url = '';
+                                                if(isset($_REQUEST['category'])){
+                                                    $url = "?category=".$_REQUEST['category'];
+                                                    $sign = '&';
+                                                }else{
+                                                    $sign = '?';
+                                                }
+                                                if(isset($_REQUEST['search'])){
+                                                    $url.= $sign."search=".$_REQUEST['search'];
+                                                }
+                                                ?>
 
 
 
-                                <a href="{{ URL::to('/shop')}}" class="btn btn-dark" id="apply_options">
-                                    @lang('website.Reset') </a>
-                                @if(app('request')->input('filters_applied')==1)
-                                <button type="button" class="btn btn-secondary" id="apply_options_btn">
-                                    @lang('website.Apply')</button>
-                                @else
-                                <!--<button type="button" class="btn btn-secondary" id="apply_options_btn" disabled> @lang('website.Apply')</button>-->
-                                <button type="button" class="btn btn-secondary" id="apply_options_btn">
-                                    @lang('website.Apply')</button>
+                                                <a href="{{ URL::to('/shop')}}" class="btn btn-dark" id="apply_options">
+                                                    @lang('website.Reset') </a>
+                                                @if(app('request')->input('filters_applied')==1)
+                                                    <button type="button" class="btn btn-secondary" id="apply_options_btn">
+                                                        @lang('website.Apply')</button>
+                                                @else
+                                                <!--<button type="button" class="btn btn-secondary" id="apply_options_btn" disabled> @lang('website.Apply')</button>-->
+                                                    <button type="button" class="btn btn-secondary" id="apply_options_btn">
+                                                        @lang('website.Apply')</button>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        @if(count($result['commonContent']['homeBanners'])>0)
+                                            @foreach(($result['commonContent']['homeBanners']) as $homeBanners)
+                                                @if($homeBanners->type==7)
+                                                    <div class="img-main">
+                                                        <a href="{{ $homeBanners->banners_url}}"><img class="img-fluid"
+                                                                                                      src="{{asset('').$homeBanners->path}}"></a>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </form>
                                 @endif
-                            </div>
-                        </div>
-                        @if(count($result['commonContent']['homeBanners'])>0)
-                        @foreach(($result['commonContent']['homeBanners']) as $homeBanners)
-                        @if($homeBanners->type==7)
-                        <div class="img-main">
-                            <a href="{{ $homeBanners->banners_url}}"><img class="img-fluid"
-                                    src="{{asset('').$homeBanners->path}}"></a>
-                        </div>
-                        @endif
-                        @endforeach
-                        @endif
-                    </form>
-                    @endif
 
 
 
-                    @if(!empty($result['commonContent']['manufacturers']) and
-                    count($result['commonContent']['manufacturers'])>0)
-                    <div class="range-slider-main">
+                                @if(!empty($result['commonContent']['manufacturers']) and
+                                count($result['commonContent']['manufacturers'])>0)
+                                    <div class="range-slider-main">
 
-                        <a class=" main-manu" data-toggle="collapse" href="#brands" role="button" aria-expanded="true"
-                            aria-controls="men-cloth">
-                            @lang('website.Brands')
-                        </a>
-                        <div class="sub-manu collapse show multi-collapse" id="brands">
-                            <div class=" searchFilter"><i class="fa fa-search ">
-                                </i><input id="brandSearch" type="text" placeholder="بحث عن الماركة" class="" value="">
-                            </div>
-                            <ul class="unorder-list" id="brandtext">
-                                @foreach ($result['commonContent']['manufacturers'] as $item)
-                                <li class="list-item cats-container" style="display:none">
-                                    <div>
-                                        <input class="common_selector tag" type="checkbox"
-                                            value="{{$item->manufacturers_id}}">
-                                        <a class="brands-btn list-item" href="{{url($item->manufacturers_url)}}"
-                                            role="button">{{$item->manufacturer_name}}</a>
-                                    </div>
-                                    <span class="categorycount">
+                                        <a class=" main-manu" data-toggle="collapse" href="#brands" role="button" aria-expanded="true"
+                                           aria-controls="men-cloth">
+                                            @lang('website.Brands')
+                                        </a>
+                                        <div class="sub-manu collapse show multi-collapse" id="brands">
+                                            <div class=" searchFilter"><i class="fa fa-search ">
+                                                </i><input id="brandSearch" type="text" placeholder="بحث عن الماركة" class="" value="">
+                                            </div>
+                                            <ul class="unorder-list" id="brandtext">
+                                                @foreach ($result['commonContent']['manufacturers'] as $item)
+                                                    <li class="list-item cats-container" style="display:none">
+                                                        <div>
+                                                            <input class="common_selector tag" type="checkbox"
+                                                                   value="{{$item->manufacturers_id}}">
+                                                            <a class="brands-btn list-item" href="{{url($item->manufacturers_url)}}"
+                                                               role="button">{{$item->manufacturer_name}}</a>
+                                                        </div>
+                                                        <span class="categorycount">
                                         ({{getCountProductInManfactureINShop($item->manufacturers_id)}})</span>
 
-                                </li>
-                                @endforeach
-                                <a id="buttonShowMore" href="#" class="showMore">Show More</a>
-                            </ul>
-                        </div>
-                    </div>
-                    @endif
-
-                </div>
-
-                <div class="col-12 col-lg-9">
-                    @if($result['products']['success']==1)
-                    <div class="products-area">
-
-                        <section id="swap" class="shop-content">
-                            <div class="products-area">
-                                <div class="row">
-
-                                    @foreach($result['products']['product_data'] as $key=>$products)
-                                    <div class="col-12 col-lg-4 col-sm-6 griding">
-                                        @include('web.common.product')
+                                                    </li>
+                                                @endforeach
+                                                <a id="buttonShowMore" href="#" class="showMore">Show More</a>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    @endforeach
-                                    @include('web.common.scripts.addToCompare')
+                                @endif
 
+                        </div>
+
+                        <div class="col-12 col-lg-9">
+                            @if($result['products']['success']==1)
+                                <div class="products-area">
+
+                                    <section id="swap" class="shop-content">
+                                        <div class="products-area">
+                                            <div class="row">
+
+                                                @foreach($result['products']['product_data'] as $key=>$products)
+                                                    <div class="col-12 col-lg-4 col-sm-6 griding">
+                                                        @include('web.common.product')
+                                                    </div>
+                                                @endforeach
+                                                @include('web.common.scripts.addToCompare')
+
+                                            </div>
+                                        </div>
+                                    </section>
                                 </div>
-                            </div>
-                        </section>
-                    </div>
 
 
-                    <div class="pagination justify-content-between ">
-                        <input id="record_limit" type="hidden" value="{{$result['limit']}}">
-                        <input id="total_record" type="hidden" value="{{$result['products']['total_record']}}">
-                        <label for="staticEmail" class="col-form-label"> @lang('website.Showing')&nbsp;<span
-                                class="showing_record">{{$result['limit']}}</span>&nbsp;@lang('website.of')&nbsp;<span
-                                class="showing_total_record">{{$result['products']['total_record']}}</span>
-                            &nbsp;@lang('website.results')</label>
+                                <div class="pagination justify-content-between ">
+                                    <input id="record_limit" type="hidden" value="{{$result['limit']}}">
+                                    <input id="total_record" type="hidden" value="{{$result['products']['total_record']}}">
+                                    <label for="staticEmail" class="col-form-label"> @lang('website.Showing')&nbsp;<span
+                                            class="showing_record">{{$result['limit']}}</span>&nbsp;@lang('website.of')&nbsp;<span
+                                            class="showing_total_record">{{$result['products']['total_record']}}</span>
+                                        &nbsp;@lang('website.results')</label>
 
-                        <div class=" justify-content-end col-6">
-                            <input type="hidden" value="1" name="page_number" id="page_number">
-                            <?php
-                                    if(!empty(app('request')->input('limit'))){
-                                        $record = app('request')->input('limit');
-                                    }else{
-                                        $record = '15';
-                                    }
-                                ?>
-                            <button class="btn btn-dark" type="button" id="load_products"
-                                @if(count($result['products']['product_data']) < $record ) style="display:none"
-                                @endif>@lang('website.Load More')</button>
+                                    <div class=" justify-content-end col-6">
+                                        <input type="hidden" value="1" name="page_number" id="page_number">
+                                        <?php
+                                        if(!empty(app('request')->input('limit'))){
+                                            $record = app('request')->input('limit');
+                                        }else{
+                                            $record = '15';
+                                        }
+                                        ?>
+                                        <button class="btn btn-dark" type="button" id="load_products"
+                                                @if(count($result['products']['product_data']) < $record ) style="display:none"
+                                            @endif>@lang('website.Load More')</button>
+                                    </div>
+                                </div>
+                            @else
+
+                                <div class="products-area">
+                                    <br>
+                                    <h3>@lang('website.No Record Found!')</h3>
+                                </div>
+                            @endif
+
                         </div>
                     </div>
-                    @else
-
-                    <div class="products-area">
-                        <br>
-                        <h3>@lang('website.No Record Found!')</h3>
-                    </div>
-                    @endif
 
                 </div>
-            </div>
-
-        </div>
-    </section>
+        </section>
 
 </section>
 
@@ -356,93 +357,63 @@
 </div>
 
 <script type="text/javascript">
-function filter_data() {
-
-
-    var brands = get_filter('tag');
-    // window.location= window.location.href + '?brands=' + brands;
-
-
-    $.ajax({
-        url: '/shop',
-        method: "post",
-        data: {
-            "_token": "{{ csrf_token() }}",
-            brands: brands
-        },
-        success: function(data) {
-            $('.products-area .row').html(data.html);
-            // console.log(data);
-        },
-        error: function(error) {
-            console.log(error);
-        }
-
-
-    })
-
-
-}
-$('.common_selector').click(function() {
-    filter_data();
-});
-
-function get_filter(class_name) {
-    var filter = [];
-    $('.' + class_name + ':checked').each(function() {
-        filter.push($(this).val());
-    });
-    return filter;
-}
-
-$(document).ready(function() {
-
-    $("#brandtext li").slice(0, 5).show();
-    $('#buttonShowMore').click(function(e) {
-        e.preventDefault();
-        var show = $(this).text();
-
-
-        if (show == 'Show Less') {
-            show = 'Show More';
-
-            $("#brandtext li").slice(5, $("#brandtext li").length).hide();
-
-        } else {
-            show = 'Show Less';
-            $("#brandtext li").slice().show().slideDown();
-        }
-
-        $(this).text(show)
-
-
-
-
-
-    })
-
-
-    $("#brandSearch").on("keyup", function() {
-        var value = $(this).val().toLowerCase();
-        $("#brandtext li").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            $('#buttonShowMore').hide();
-        });
-    });
-    $("#brandSearch").on('blur', function() {
-        $('#buttonShowMore').show();
-    })
-
-
-    if ($("#brandtext li").length <= 5) {
-        $('#buttonShowMore').hide();
-    } else {
-
-        $('#buttonShowMore').show();
-
+    function filter_data() {
+        var brands = get_filter('tag');
+        // window.location= window.location.href + '?brands=' + brands;
+        $.ajax({
+            url: '/shop',
+            method: "post",
+            data: {
+                "_token": "{{ csrf_token() }}",
+                brands: brands
+            },
+            success: function(data) {
+                $('.products-area .row').html(data.html);
+                // console.log(data);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })
     }
-
-
-
-});
+    $('.common_selector').click(function() {
+        filter_data();
+    });
+    function get_filter(class_name) {
+        var filter = [];
+        $('.' + class_name + ':checked').each(function() {
+            filter.push($(this).val());
+        });
+        return filter;
+    }
+    $(document).ready(function() {
+        $("#brandtext li").slice(0, 5).show();
+        $('#buttonShowMore').click(function(e) {
+            e.preventDefault();
+            var show = $(this).text();
+            if (show == 'Show Less') {
+                show = 'Show More';
+                $("#brandtext li").slice(5, $("#brandtext li").length).hide();
+            } else {
+                show = 'Show Less';
+                $("#brandtext li").slice().show().slideDown();
+            }
+            $(this).text(show)
+        })
+        $("#brandSearch").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#brandtext li").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                $('#buttonShowMore').hide();
+            });
+        });
+        $("#brandSearch").on('blur', function() {
+            $('#buttonShowMore').show();
+        })
+        if ($("#brandtext li").length <= 5) {
+            $('#buttonShowMore').hide();
+        } else {
+            $('#buttonShowMore').show();
+        }
+    });
 </script>
